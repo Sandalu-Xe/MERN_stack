@@ -5,7 +5,7 @@ const UserSchema = new mongoose.Schema(
     {
         name: {
             type: String, // Missing type definition for name
-            required: [true, "Please enter product name"]
+            required: [true, "Please enter Your user name "]
         },
         email: {
             type: String,
