@@ -7,15 +7,21 @@ const SignupForm = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const [message, setMessage] = useState('');
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
     // Handle signup logic here
-    axios.post("/register",{ name, email, password, confirmPassword })
-    .then(result=> console.log(result))
-    .catch(err=>console.log(err))
-    console.log('Signup details:', { name, email, password, confirmPassword });
+    axios.post("http://localhost:3001/register", { name, email, password })
+    .then((result) => {
+      console.log(result.data);
+      setMessage(result.data.message);
+    })
+    .catch((err) => {
+      console.error(err);
+      setMessage(err.response ? err.response.data.message : 'Error registering user');
+    });
   };
 
   return (
