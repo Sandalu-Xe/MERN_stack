@@ -59,15 +59,7 @@ const SignupForm = () => {
           />
         </Form.Group>
 
-        <Form.Group controlId="formConfirmPassword">
-          <Form.Label>Confirm Password</Form.Label>
-          <Form.Control
-            type="password"
-            placeholder="Confirm Password"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-          />
-        </Form.Group>
+
 
         <Button variant="primary" type="submit">
           Signup
