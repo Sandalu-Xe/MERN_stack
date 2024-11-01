@@ -14,7 +14,7 @@ const SignupForm = () => {
   const { enqueueSnackbar } = useSnackbar();
 
 
-  const handleSaveBook = () => {
+  const handleSubmit = () => {
     const data = {
      name,
      email,
@@ -22,7 +22,7 @@ const SignupForm = () => {
     };
     setLoading(true);
     axios
-      .post('http://localhost:3002/register', data)
+      .post('http://localhost:3001/register', data)
       .then(() => {
         setLoading(false);
         enqueueSnackbar('user regidtrtion sucessfully', { variant: 'success' });
@@ -71,7 +71,7 @@ const SignupForm = () => {
             onChange={(e) => setPassword(e.target.value)}
           />
         </Form.Group>
-        <Button variant="primary" type="submit" >
+        <Button variant="primary" type="submit"  onClick={handleSubmit} >
           Signup
         </Button>
       </Form>
