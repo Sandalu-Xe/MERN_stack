@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Form, Button, Container } from 'react-bootstrap';
 import axios from "axios"
+import { useNavigate } from 'react-router-dom';
+import { useSnackbar } from 'notistack';
 
 const SignupForm = () => {
 
@@ -8,21 +10,32 @@ const SignupForm = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
+  const navigate = useNavigate();
+  const { enqueueSnackbar } = useSnackbar();
 
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Handle signup logic here
-    axios.post("http://localhost:3002/register", { name, email, password })
-    .then((result) => {
-      console.log(result.data);
-      setMessage(result.data.message);
-    })
-    .catch((err) => {
-      console.error(err);
-      setMessage(err.response ? err.response.data.message : 'Error registering user');
-    });
+  const handleSaveBook = () => {
+    const data = {
+     name,
+     email,
+     password
+    };
+    setLoading(true);
+    axios
+      .post('http://localhost:3002/register', data)
+      .then(() => {
+        setLoading(false);
+        enqueueSnackbar('user regidtrtion sucessfully', { variant: 'success' });
+        navigate('/');
+      })
+      .catch((error) => {
+        setLoading(false);
+        // alert('An error happened. Please Chack console');
+        enqueueSnackbar('Error', { variant: 'error' });
+        console.log(error);
+      });
   };
+
 
   return (
     <Container>
@@ -58,7 +71,7 @@ const SignupForm = () => {
             onChange={(e) => setPassword(e.target.value)}
           />
         </Form.Group>
-        <Button variant="primary" type="submit">
+        <Button variant="primary" type="submit" >
           Signup
         </Button>
       </Form>
