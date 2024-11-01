@@ -11,13 +11,13 @@ const Usertable = () => {
         const data = await response.json();
         setItems(data);
       } catch (error) {
-        console.error('Error fetching items:', error);
+        console.error('Error fetching users:', error);
       }
     };
 
     fetchusers();
   }, []);
-
+ 
   return (
     <Form>
       <FormGroup>
@@ -25,7 +25,7 @@ const Usertable = () => {
         <Input type="select" name="item" id="itemSelect">
           {users.map(users => (
             <option key={users._id} value={users.name}>
-              {users.name} - ${users.email}
+             Name- {users.name} ,, email- {users.email}
             </option>
           ))}
         </Input>
