@@ -12,8 +12,6 @@ const [name, setName] = useState('');
      
     console.log('Login details:', { email, password });
     axios
-
-
   };
 
   return (

@@ -13,7 +13,7 @@ const SignupForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     // Handle signup logic here
-    axios.post("http://localhost:3001/register", { name, email, password })
+    axios.post("http://localhost:3002/register", { name, email, password })
     .then((result) => {
       console.log(result.data);
       setMessage(result.data.message);
