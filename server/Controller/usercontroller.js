@@ -19,6 +19,19 @@ const createUser =  async (req, res) => {
     }
   };
 
+
+  const Findusers= async (req, res) => {
+    try {
+        // Retrieve all products from the database
+        const users = await User.find({}); // Find all products
+  
+        // Respond with the list of products
+        res.status(200).json(users);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+  }
+
   module.exports={
-    createUser
+    createUser,Findusers
   }

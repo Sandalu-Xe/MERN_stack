@@ -35,17 +35,17 @@ app.post('/register', async (req, res) => {
 
 
 //find 
-app.get('/users', async (req, res) => {
-  try {
-      // Retrieve all products from the database
-      const users = await User.find({}); // Find all products
+// app.get('/users', async (req, res) => {
+// //   try {
+// //       // Retrieve all products from the database
+// //       const users = await User.find({}); // Find all products
 
-      // Respond with the list of products
-      res.status(200).json(users);
-  } catch (error) {
-      res.status(500).json({ message: error.message });
-  }
-})
+// //       // Respond with the list of products
+// //       res.status(200).json(users);
+// //   } catch (error) {
+// //       res.status(500).json({ message: error.message });
+// //   }
+// // })
 
 //user find by id
 
