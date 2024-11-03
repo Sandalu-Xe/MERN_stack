@@ -1,6 +1,5 @@
 const User = require('../models/usermode.js');
 
-
 //add functions
 
 // Create a new product
@@ -20,7 +19,7 @@ const createUser =  async (req, res) => {
   };
 
 
-  const Findusers= async (req, res) => {
+  const Findusers = async (req, res) => {
     try {
         // Retrieve all products from the database
         const users = await User.find({}); // Find all products
@@ -32,6 +31,26 @@ const createUser =  async (req, res) => {
     }
   }
 
+  // Update a users
+
+const upadateusers=  async (req, res) => {
+  try {
+      const { id } = req.params;//.Get the ID from the request parameters
+
+      const user = await User.findByIdAndUpdate(id, req.body);
+
+      if (!user) {
+          return res.status(404).json({ message: "user not found" });
+      }
+
+      const updateduser = await User.findById(id);
+      res.status(200).json(updateduser);// Return the updated product
+
+  } catch (error) {
+      res.status(500).json({ message: error.message }); // Handle any errors
+  }
+}
+
   module.exports={
-    createUser,Findusers
+    createUser,Findusers,upadateusers
   }
