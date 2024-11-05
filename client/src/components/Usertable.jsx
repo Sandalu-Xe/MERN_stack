@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Form, FormGroup, Label, Input } from 'reactstrap';
+
 import { Table } from 'react-bootstrap';
 
 const Usertable = () => {
