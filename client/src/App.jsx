@@ -4,7 +4,7 @@ import { Navbar, Nav, Container } from 'react-bootstrap';
 import SignupForm from './components/Signup'
 import LoginForm from './components/Login'
 import Usertable from './components/Usertable';
-import NaviBar from './Components/NaviBar';
+import NaviBar from './components/NaviBar';
 
 
 function App() {
