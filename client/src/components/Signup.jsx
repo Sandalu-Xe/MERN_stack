@@ -22,7 +22,7 @@ const SignupForm = () => {
     };
     setLoading(true);
     axios
-      .post('http://localhost:3001/register', data)
+      .post('http://localhost:3001/signup', data)
       .then(() => {
         setLoading(false);
         enqueueSnackbar('user regidtrtion sucessfully', { variant: 'success' });

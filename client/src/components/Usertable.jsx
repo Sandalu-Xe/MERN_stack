@@ -25,7 +25,9 @@ const Usertable = () => {
       <tr>
         <th>#</th>
         <th>Name</th>
-        <th>Email</th>
+        <th>address</th>
+        <th>email</th>
+        <th>age</th>
       </tr>
     </thead>
     <tbody>
@@ -33,7 +35,9 @@ const Usertable = () => {
         <tr key={user._id}>
           <td>{index + 1}</td>
           <td>{user.name}</td>
+          <td>{user.address}</td>
           <td>{user.email}</td>
+          <td>{user.age}</td>
         </tr>
       ))}
     </tbody>
