@@ -1,27 +1,45 @@
 import React, { useState } from 'react';
 import { Form, Button, Container } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
+
+
 
 function AddUser() {
-    const [formData, setFormData] = useState({
-        name: '',
-        email: '',
-        address: '',
-        age: '',
-    });
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [age, setAge] = useState('');
+    const [address, setAddress] = useState('');
+    const [message, setMessage] = useState('');
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData({
-            ...formData,
-            [name]: value,
-        });
-    };
+ 
+    const navigate = useNavigate();
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        console.log('Form submitted:', formData);
-        // Perform form submission logic (e.g., API call)
-    };
+
+    const handleSubmit = () => {
+        const data = {
+         name,
+         email,
+         password,  
+         address,
+         age,
+
+        };
+        setLoading(true);
+        axios
+          .post('http://localhost:3001/signup', data)
+          .then(() => {
+            setLoading(false);
+            enqueueSnackbar('user regidtrtion sucessfully', { variant: 'success' });
+            navigate('/');
+          })
+          .catch((error) => {
+            setLoading(false);
+            // alert('An error happened. Please Chack console');
+            enqueueSnackbar('Error', { variant: 'error' });
+            console.log(error);
+          });
+      };
 
     return (
         <Container style={{ maxWidth: '500px', marginTop: '50px' }}>
@@ -33,10 +51,11 @@ function AddUser() {
                         type="text"
                         placeholder="Enter name"
                         name="name"
-                        value={formData.name}
-                        onChange={handleChange}
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
                     />
                 </Form.Group>
+         
 
                 <Form.Group controlId="formEmail" className="mb-3">
                     <Form.Label>Email</Form.Label>
@@ -44,8 +63,8 @@ function AddUser() {
                         type="email"
                         placeholder="Enter email"
                         name="email"
-                        value={formData.email}
-                        onChange={handleChange}
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
                     />
                 </Form.Group>
 
@@ -55,8 +74,8 @@ function AddUser() {
                         type="text"
                         placeholder="Enter address"
                         name="address"
-                        value={formData.address}
-                        onChange={handleChange}
+                        value={address}
+                        onChange={(e) => setAddress(e.target.value)}
                     />
                 </Form.Group>
 
@@ -66,8 +85,8 @@ function AddUser() {
                         type="number"
                         placeholder="Enter age"
                         name="age"
-                        value={formData.age}
-                        onChange={handleChange}
+                        value={age}
+                        onChange={(e) => setAge(e.target.value)}
                     />
                 </Form.Group>
 
@@ -77,12 +96,12 @@ function AddUser() {
                         type="password"
                         placeholder="Enter password"
                         name="password"
-                        value={formData.password}
-                        onChange={handleChange}
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
                     />
                 </Form.Group>
 
-                <Button variant="primary" type="submit">
+                <Button variant="primary" type="submit" onClick={handleSubmit} >
                     Submit
                 </Button>
             </Form>

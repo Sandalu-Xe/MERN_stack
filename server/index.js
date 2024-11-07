@@ -16,7 +16,7 @@ app.get('/', async (req, res) => {
   res.send(" hello from node api sandalu thushan ");
 })
 
-app.post('/signup', async (req, res) => {
+app.post('/adduser', async (req, res) => {
   try {
     
     //  const Product = await Product.create(req.body);
