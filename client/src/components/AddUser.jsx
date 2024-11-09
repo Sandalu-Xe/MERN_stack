@@ -27,7 +27,7 @@ function AddUser() {
         };
         setLoading(true);
         axios
-          .post('http://localhost:3001/signup', data)
+          .post('http://localhost:3002/signup', data)
           .then(() => {
             setLoading(false);
             enqueueSnackbar('user regidtrtion sucessfully', { variant: 'success' });
