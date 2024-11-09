@@ -16,14 +16,14 @@ app.get('/', async (req, res) => {
   res.send(" hello from node api sandalu thushan ");
 })
 
-app.post('/register', async (req, res) => {
+app.post('/adduser', async (req, res) => {
   try {
     
     //  const Product = await Product.create(req.body);
 
-    const { name, email, password } = req.body;
+    const { name, email,password,address,age } = req.body;
 
-    const newuser = new User({ name, email, password });
+    const newuser = new User({ name, email, password,age, address });
     const saveduser = await newuser.save();
 
     res.status(200).json(saveduser);
@@ -34,7 +34,7 @@ app.post('/register', async (req, res) => {
 });
 
 
-//find 
+// find 
 app.get('/users', async (req, res) => {
   try {
       // Retrieve all products from the database

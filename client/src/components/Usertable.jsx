@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Form, FormGroup, Label, Input } from 'reactstrap';
+
+import { Table } from 'react-bootstrap';
 
 const Usertable = () => {
   const [users, setItems] = useState([]);
@@ -25,7 +26,7 @@ const Usertable = () => {
         <Input type="select" name="item" id="itemSelect">
           {users.map(users => (
             <option key={users._id} value={users.name}>
-             Name- {users.name} ,, email- {users.email}
+              {users.name} - ${users.email}
             </option>
           ))}
         </Input>
