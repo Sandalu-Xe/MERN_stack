@@ -17,7 +17,12 @@ function AddUser() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const data = { name, email, password, address, age };
+        const data = { 
+            name, 
+            email,
+            password, 
+            address, 
+            age };
 
         setLoading(true);
         axios

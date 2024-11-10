@@ -21,7 +21,7 @@ const LoginForm = () => {
       console.log('Login successful:', response.data);
       setLoading(false);
       enqueueSnackbar('User registration successful', { variant: 'success' });
-      navigate('/login');
+      navigate('/');
 
       // Perform actions on successful login
     } catch (error) {

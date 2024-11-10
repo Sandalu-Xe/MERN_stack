@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Form, Button, Container } from 'react-bootstrap';
-import axios from "axios"
+import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useSnackbar } from 'notistack';
 
@@ -9,34 +9,33 @@ const SignupForm = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [message, setMessage] = useState('');
+  const [loading, setLoading] = useState(false); // Added loading state
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
 
-  const handleSubmit = () => {
     const data = {
-     name,
-     email,
-     password,
-     confirmPassword
+      name,
+      email,
+      password,
+      confirmPassword,
     };
 
     setLoading(true);
 
     axios
-      .post('http://localhost:3002/signup', data)
+      .post('http://localhost:3001/signup', data)
       .then(() => {
         setLoading(false);
-        enqueueSnackbar('user regidtrtion sucessfully', { variant: 'success' });
-        navigate('/');
+        enqueueSnackbar('User registration successful', { variant: 'success' });
+        navigate('/login');
       })
       .catch((error) => {
         setLoading(false);
-        // alert('An error happened. Please Chack console');
-        enqueueSnackbar('Error', { variant: 'error' });
+        enqueueSnackbar('Error occurred. Check console for details', { variant: 'error' });
         console.log(error);
-        navigate('/login');
       });
   };
 
@@ -45,7 +44,6 @@ const SignupForm = () => {
       <h2>Signup</h2>
       <Form onSubmit={handleSubmit}>
         <Form.Group controlId="formName">
-          
           <Form.Label>Name</Form.Label>
           <Form.Control
             type="text"
@@ -75,17 +73,18 @@ const SignupForm = () => {
           />
         </Form.Group>
 
-        <Form.Group controlId="formconfirmPassword" className="mb-3">
-          <Form.Label> Confirm Password</Form.Label>
+        <Form.Group controlId="formConfirmPassword" className="mb-3">
+          <Form.Label>Confirm Password</Form.Label>
           <Form.Control
             type="password"
-            placeholder="confirm password"
+            placeholder="Confirm password"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
           />
         </Form.Group>
-        <Button variant="primary" type="submit"  onClick={handleSubmit} >
-          Signup
+
+        <Button variant="primary" type="submit" disabled={loading}>
+          {loading ? 'Signing up...' : 'Signup'}
         </Button>
       </Form>
     </Container>
@@ -93,5 +92,3 @@ const SignupForm = () => {
 };
 
 export default SignupForm;
-
-
