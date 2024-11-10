@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-import { Table } from 'react-bootstrap';
+import { Table } from 'reactstrap';
 
 const Usertable = () => {
   const [users, setItems] = useState([]);
@@ -20,18 +20,29 @@ const Usertable = () => {
   }, []);
  
   return (
-    <Form>
-      <FormGroup>
-        <Label for="itemSelect">Select Item</Label>
-        <Input type="select" name="item" id="itemSelect">
-          {users.map(users => (
-            <option key={users._id} value={users.name}>
-              {users.name} - ${users.email}
-            </option>
-          ))}
-        </Input>
-      </FormGroup>
-    </Form>
+    <Table striped bordered hover>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Address</th>
+          <th>Age</th>
+         
+        </tr>
+      </thead>
+      <tbody>
+        {users.map((user, index) => (
+          <tr key={user._id}>
+            <td>{index + 1}</td>
+            <td>{user.name}</td>
+            <td>{user.email}</td>
+            <td>{user.address}</td>
+            <td>{user.age}</td>
+          </tr>
+        ))}
+      </tbody>
+    </Table>
   );
 };
 
