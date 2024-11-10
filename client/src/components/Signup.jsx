@@ -29,13 +29,14 @@ const SignupForm = () => {
       .post('http://localhost:3001/signup', data)
       .then(() => {
         setLoading(false);
-        enqueueSnackbar('User registration successful', { variant: 'success' });
-        navigate('/login');
+        enqueueSnackbar('user regidtrtion sucessfully', { variant: 'success' });
+        navigate('/');
       })
       .catch((error) => {
         setLoading(false);
         enqueueSnackbar('Error occurred. Check console for details', { variant: 'error' });
         console.log(error);
+        navigate('/login');
       });
   };
 
