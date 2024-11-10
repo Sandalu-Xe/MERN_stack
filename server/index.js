@@ -3,6 +3,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const User = require('./models/usermode.js');
+const Signup=require('./models/Signupmodel.js')
 
 // Initialize the app
 const app = express();
@@ -24,6 +25,23 @@ app.post('/adduser', async (req, res) => {
     const { name, email,password,address,age } = req.body;
 
     const newuser = new User({ name, email, password,age, address });
+    const saveduser = await newuser.save();
+
+    res.status(200).json(saveduser);
+   
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+app.post('/signup', async (req, res) => {
+  try {
+    
+    //  const Product = await Product.create(req.body);
+
+    const { name, email,password,confirmPassword } = req.body;
+
+    const newuser = new Signup({ name, email, password,confirmPassword});
     const saveduser = await newuser.save();
 
     res.status(200).json(saveduser);

@@ -1,48 +1,46 @@
 import React, { useState } from 'react';
 import { Form, Button, Container } from 'react-bootstrap';
-import axios from "axios"
+import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useSnackbar } from 'notistack';
 
 const SignupForm = () => {
-
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [message, setMessage] = useState('');
+  const [loading, setLoading] = useState(false);
+  const[confirmPassword,setConfirmpassword]= useState('');
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
 
-
-  const handleSubmit = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault(); // Prevent page refresh on submit
     const data = {
-     name,
-     email,
-     password
+      name,
+      email,
+      password,
+      confirmPassword,
     };
     setLoading(true);
     axios
       .post('http://localhost:3001/signup', data)
       .then(() => {
         setLoading(false);
-        enqueueSnackbar('user regidtrtion sucessfully', { variant: 'success' });
+        enqueueSnackbar('User registration successful', { variant: 'success' });
         navigate('/');
       })
       .catch((error) => {
         setLoading(false);
-        // alert('An error happened. Please Chack console');
-        enqueueSnackbar('Error', { variant: 'error' });
-        console.log(error);
+        enqueueSnackbar('Error occurred during registration', { variant: 'error' });
+        console.error(error);
       });
   };
-
 
   return (
     <Container>
       <h2>Signup</h2>
       <Form onSubmit={handleSubmit}>
         <Form.Group controlId="formName">
-          
           <Form.Label>Name</Form.Label>
           <Form.Control
             type="text"
@@ -71,8 +69,20 @@ const SignupForm = () => {
             onChange={(e) => setPassword(e.target.value)}
           />
         </Form.Group>
-        <Button variant="primary" type="submit"  onClick={handleSubmit} >
-          Signup
+
+
+        <Form.Group controlId="formConfirmPassword">
+          <Form.Label>Confirm Password</Form.Label>
+          <Form.Control
+            type="confirmpassword"
+            placeholder="confirmPassword"
+            value={confirmPassword}
+            onChange={(e) => setConfirmpassword(e.target.value)}
+          />
+        </Form.Group>
+        
+        <Button variant="primary" type="submit" disabled={loading}>
+          {loading ? 'Signing up...' : 'Signup'}
         </Button>
       </Form>
     </Container>
@@ -80,5 +90,3 @@ const SignupForm = () => {
 };
 
 export default SignupForm;
-
-
