@@ -1,11 +1,13 @@
 
 const mongoose = require("mongoose");
-const bcrypt = require('bcrypt');
+
+const bcrypt = require('bcryptjs');
+
 
 const UserSchema = new mongoose.Schema(
     {
         name: {
-            type: String, // Missing type definition for name
+            type: String, 
             required: [true, "Please enter Your user name "]
         },
         email: {

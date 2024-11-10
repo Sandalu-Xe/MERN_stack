@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { Form, Button, Container } from 'react-bootstrap';
+import { Form, Button, Container, Spinner } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-
-
+import axios from 'axios';
+import { useSnackbar } from 'notistack';
 
 function AddUser() {
     const [name, setName] = useState('');
@@ -10,24 +10,18 @@ function AddUser() {
     const [password, setPassword] = useState('');
     const [age, setAge] = useState('');
     const [address, setAddress] = useState('');
-    const [message, setMessage] = useState('');
+    const [loading, setLoading] = useState(false);
 
- 
     const navigate = useNavigate();
+    const { enqueueSnackbar } = useSnackbar();
 
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        const data = { name, email, password, address, age };
 
-    const handleSubmit = () => {
-        const data = {
-         name,
-         email,
-         password,  
-         address,
-         age,
-
-        };
         setLoading(true);
         axios
-          .post('http://localhost:3002/signup', data)
+          .post('http://localhost:3001/signup', data)
           .then(() => {
             setLoading(false);
             enqueueSnackbar('user regidtrtion sucessfully', { variant: 'success' });
@@ -50,19 +44,16 @@ function AddUser() {
                     <Form.Control
                         type="text"
                         placeholder="Enter name"
-                        name="name"
                         value={name}
                         onChange={(e) => setName(e.target.value)}
                     />
                 </Form.Group>
-         
 
                 <Form.Group controlId="formEmail" className="mb-3">
                     <Form.Label>Email</Form.Label>
                     <Form.Control
                         type="email"
                         placeholder="Enter email"
-                        name="email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                     />
@@ -73,7 +64,6 @@ function AddUser() {
                     <Form.Control
                         type="text"
                         placeholder="Enter address"
-                        name="address"
                         value={address}
                         onChange={(e) => setAddress(e.target.value)}
                     />
@@ -84,7 +74,6 @@ function AddUser() {
                     <Form.Control
                         type="number"
                         placeholder="Enter age"
-                        name="age"
                         value={age}
                         onChange={(e) => setAge(e.target.value)}
                     />
@@ -95,14 +84,13 @@ function AddUser() {
                     <Form.Control
                         type="password"
                         placeholder="Enter password"
-                        name="password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                     />
                 </Form.Group>
 
-                <Button variant="primary" type="submit" onClick={handleSubmit} >
-                    Submit
+                <Button variant="primary" type="submit" disabled={loading}>
+                    {loading ? <Spinner animation="border" size="sm" /> : 'Submit'}
                 </Button>
             </Form>
         </Container>

@@ -1,17 +1,36 @@
 import axios from 'axios';
 import React, { useState } from 'react';
 import { Form, Button, Container } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
+import { useSnackbar } from 'notistack';
 
 const LoginForm = () => {
-const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+  const { enqueueSnackbar } = useSnackbar();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
      
     console.log('Login details:', { email, password });
-    axios
+    
+    try {
+      const response = await axios.post('/api/login', { email, password });
+      console.log('Login successful:', response.data);
+      setLoading(false);
+      enqueueSnackbar('User registration successful', { variant: 'success' });
+      navigate('/login');
+
+      // Perform actions on successful login
+    } catch (error) {
+      console.error('Login failed:', error);
+      setLoading(false);
+      enqueueSnackbar('Error occurred during registration', { variant: 'error' });
+      console.error(error);
+      // Handle login error
+    }
   };
 
   return (
@@ -45,4 +64,5 @@ const [name, setName] = useState('');
     </Container>
   );
 };
+
 export default LoginForm;
