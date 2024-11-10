@@ -8,6 +8,7 @@ const SignupForm = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [message, setMessage] = useState('');
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
@@ -17,7 +18,8 @@ const SignupForm = () => {
     const data = {
      name,
      email,
-     password
+     password,
+     confirmPassword
     };
 
     setLoading(true);
@@ -34,6 +36,7 @@ const SignupForm = () => {
         // alert('An error happened. Please Chack console');
         enqueueSnackbar('Error', { variant: 'error' });
         console.log(error);
+        navigate('/login');
       });
   };
 
@@ -69,6 +72,16 @@ const SignupForm = () => {
             placeholder="Enter password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+          />
+        </Form.Group>
+
+        <Form.Group controlId="formconfirmPassword" className="mb-3">
+          <Form.Label> Confirm Password</Form.Label>
+          <Form.Control
+            type="password"
+            placeholder="confirm password"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
           />
         </Form.Group>
         <Button variant="primary" type="submit"  onClick={handleSubmit} >
