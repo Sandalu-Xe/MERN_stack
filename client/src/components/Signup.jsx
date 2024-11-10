@@ -27,7 +27,7 @@ const SignupForm = () => {
       .then(() => {
         setLoading(false);
         enqueueSnackbar('User registration successful', { variant: 'success' });
-        navigate('/');
+        navigate('/login');
       })
       .catch((error) => {
         setLoading(false);
@@ -74,7 +74,7 @@ const SignupForm = () => {
         <Form.Group controlId="formConfirmPassword">
           <Form.Label>Confirm Password</Form.Label>
           <Form.Control
-            type="confirmpassword"
+            type="password"
             placeholder="confirmPassword"
             value={confirmPassword}
             onChange={(e) => setConfirmpassword(e.target.value)}
