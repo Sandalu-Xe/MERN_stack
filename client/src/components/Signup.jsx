@@ -30,13 +30,13 @@ const SignupForm = () => {
       .then(() => {
         setLoading(false);
         enqueueSnackbar('user regidtrtion sucessfully', { variant: 'success' });
-        navigate('/');
+        navigate('/login');
       })
       .catch((error) => {
         setLoading(false);
         enqueueSnackbar('Error occurred. Check console for details', { variant: 'error' });
         console.log(error);
-        navigate('/login');
+       
       });
   };
 

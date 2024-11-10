@@ -30,7 +30,7 @@ function AddUser() {
           .then(() => {
             setLoading(false);
             enqueueSnackbar('user regidtrtion sucessfully', { variant: 'success' });
-            navigate('/');
+            navigate('/users');
           })
           .catch((error) => {
             setLoading(false);
