@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useParams ,useNavigate } from 'react-router-dom';
-
 import { useSnackbar } from 'notistack';
 import axios from 'axios';
 import { Button, Form, Container } from 'react-bootstrap';
@@ -11,6 +10,7 @@ const EditUser = () => {
   const [email, setEmail] = useState('');
   const [address, setAddress] = useState('');
   const [age, setAge] = useState('');
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const {id} = useParams();
   const { enqueueSnackbar } = useSnackbar();
@@ -97,16 +97,6 @@ const EditUser = () => {
                         placeholder="Enter age"
                         value={age}
                         onChange={(e) => setAge(e.target.value)}
-                    />
-                </Form.Group>
-
-                <Form.Group controlId="formPassword" className="mb-3">
-                    <Form.Label>Password</Form.Label>
-                    <Form.Control
-                        type="password"
-                        placeholder="Enter password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
                     />
                 </Form.Group>
                 <Button variant="primary" className="w-100" onClick={handleEditUser}>

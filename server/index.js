@@ -67,7 +67,7 @@ app.get('/users', async (req, res) => {
 
 //user find by id
 
-app.get('/user/:id', async (req, res) => {
+app.get('/edituser/:id', async (req, res) => {
   const { id } = req.params; // Get the ID from the request parameters
   try {
       const user = await User.findById(id); // Find the product by ID
