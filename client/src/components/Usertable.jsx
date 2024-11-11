@@ -33,14 +33,11 @@ const Usertable = () => {
       } catch (error) {
         console.error('Error deleting user:', error);
       }
-
     }
-   
   };
-
   const handleUpdate = (userId) => {
     // Logic to handle updating a user (e.g., open a modal or navigate to an edit page)
-    navigate(`/adduser/${userId}`);
+    navigate(`/edituser/${userId}`);
     console.log('Update user with ID:', userId);
   };
 

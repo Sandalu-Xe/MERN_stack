@@ -97,7 +97,7 @@ app.delete('/user/:id', async (req, res) => {
 
 // update user details by using id 
 
-app.put('/user/:id', async (req, res) => {
+app.put('/edituser/:id', async (req, res) => {
   try {
       const { id } = req.params;//.Get the ID from the request parameters
 

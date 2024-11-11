@@ -6,6 +6,7 @@ import LoginForm from './components/Login'
 import Usertable from './components/Usertable';
 import NaviBar from './components/NaviBar';
 import AddUser from './components/AddUser';
+import EditUser from './components/EditUser';
 
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
             <Route path="/signup" element={<SignupForm />} />
             <Route path="/users" element={<Usertable />} />
             <Route path="/adduser" element={<AddUser />} />
+            <Route path="/edituser" element={<EditUser />} />
           </Routes>
         </Container>
       </div>
