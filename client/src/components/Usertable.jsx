@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import { Table, Button } from 'reactstrap';
+import { useNavigate } from 'react-router-dom';
 
-import { Table } from 'reactstrap';
 
 const Usertable = () => {
   const [users, setItems] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchusers = async () => {
@@ -18,7 +20,30 @@ const Usertable = () => {
 
     fetchusers();
   }, []);
- 
+
+  const handleDelete = async (userId) => {
+    const confirmDelete = window.confirm("Are you sure you want to delete this user?");
+    if (!confirmDelete) {
+      try {
+        await fetch(`http://localhost:3001/users/${userId}`, {
+         
+          method: 'DELETE',
+        });
+        setItems((prevUsers) => prevUsers.filter(user => user._id !== userId));
+      } catch (error) {
+        console.error('Error deleting user:', error);
+      }
+
+    }
+   
+  };
+
+  const handleUpdate = (userId) => {
+    // Logic to handle updating a user (e.g., open a modal or navigate to an edit page)
+    navigate(`/adduser/${userId}`);
+    console.log('Update user with ID:', userId);
+  };
+
   return (
     <Table striped bordered hover>
       <thead>
@@ -28,7 +53,7 @@ const Usertable = () => {
           <th>Email</th>
           <th>Address</th>
           <th>Age</th>
-         
+          <th>Actions</th>
         </tr>
       </thead>
       <tbody>
@@ -39,6 +64,14 @@ const Usertable = () => {
             <td>{user.email}</td>
             <td>{user.address}</td>
             <td>{user.age}</td>
+            <td>
+              <Button color="primary" onClick={() => handleUpdate(user._id)} className="me-2">
+                Update
+              </Button>
+              <Button color="danger" onClick={() => handleDelete(user._id)}>
+                Delete
+              </Button>
+            </td>
           </tr>
         ))}
       </tbody>
