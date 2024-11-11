@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useSnackbar } from 'notistack';
 
+
 function AddUser() {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
