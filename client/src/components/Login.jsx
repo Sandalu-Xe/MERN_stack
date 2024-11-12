@@ -32,7 +32,6 @@ const LoginForm = () => {
       // Handle login error
     }
   };
-
   return (
     <Container>
       <h2>Login</h2>
