@@ -1,6 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect ,useRef } from 'react';
 import { Table, Button } from 'reactstrap';
 import { useNavigate } from 'react-router-dom';
+import{componentRef} from 'react-to-print';
+
 
 
 const Usertable = () => {
@@ -43,8 +45,17 @@ const Usertable = () => {
     console.log('Update user with ID:', userId);
   };
 
-  return (
-    <Table striped bordered hover>
+  const componentRef = useRef();
+  const handlePrint = useReactToPrint({
+    content: () => componentRef.current,
+    documentTitle: "Users Report",
+    onAfterPrint: () => alert("Users Report Successfully Downloaded!"),
+  });
+  
+
+  return (<>
+   <Table striped bordered hover>
+    <div ref={componentRef}>
       <thead>
         <tr>
           <th>#</th>
@@ -74,7 +85,11 @@ const Usertable = () => {
           </tr>
         ))}
       </tbody>
+      </div>
     </Table>
+    <Button onClick={handlePrint}>download PDF</Button>
+  </>
+   
   );
 };
 

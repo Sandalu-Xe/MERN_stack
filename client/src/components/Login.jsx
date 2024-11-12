@@ -23,13 +23,13 @@ const LoginForm = () => {
       enqueueSnackbar('User registration successful', { variant: 'success' });
       navigate('/');
 
-      // Perform actions on successful login
+   
     } catch (error) {
       console.error('Login failed:', error);
       setLoading(false);
       enqueueSnackbar('Error occurred during registration', { variant: 'error' });
       console.error(error);
-      // Handle login error
+
     }
   };
   return (
