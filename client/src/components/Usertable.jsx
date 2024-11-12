@@ -23,10 +23,11 @@ const Usertable = () => {
 
   const handleDelete = async (userId) => {
     const confirmDelete = window.confirm("Are you sure you want to delete this user?");
-    if (!confirmDelete) {
+    
+    // Proceed with deletion only if confirmed
+    if (confirmDelete) {
       try {
         await fetch(`http://localhost:3001/users/${userId}`, {
-         
           method: 'DELETE',
         });
         setItems((prevUsers) => prevUsers.filter(user => user._id !== userId));
@@ -35,6 +36,7 @@ const Usertable = () => {
       }
     }
   };
+  
   const handleUpdate = (userId) => {
     // Logic to handle updating a user (e.g., open a modal or navigate to an edit page)
     navigate(`/edituser/${userId}`);

@@ -23,7 +23,7 @@ function App() {
             <Route path="/signup" element={<SignupForm />} />
             <Route path="/users" element={<Usertable />} />
             <Route path="/adduser" element={<AddUser />} />
-            <Route path="/edituser" element={<EditUser />} />
+            <Route path="/edituser/:id" element={<EditUser />} />
           </Routes>
         </Container>
       </div>
