@@ -4,7 +4,9 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const User = require('./models/usermode.js');
 const Signup=require('./models/Signupmodel.js')
-const pdf=require('./models/Pdfmodel.js')
+const Pdf=require('./models/Pdfmodel.js')
+const multer = require('multer');
+
 
 // Initialize the app
 const app = express();
@@ -12,6 +14,7 @@ const app = express();
 // Middleware
 app.use(cors());
 app.use(express.json()); // Parse JSON request bodies
+app.use("/files",express.static("files"));
 
 
 app.get('/', async (req, res) => {
@@ -73,6 +76,39 @@ app.post("/login", async (req, res) => {
 });
 
 
+//pdf
+
+// Configure storage for multer
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'uploads/'); // Directory where files will be stored
+  },
+  filename: function (req, file, cb) {
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+    cb(null, uniqueSuffix + path.extname(file.originalname)); // Save file with unique name
+  }
+});
+
+// Set up multer with the configured storage
+const upload = multer({ storage: storage });
+
+app.post("/uploadfile",upload.single('file'),async(req,res)=>{
+  console.log(res.file);
+  const title = res.body.title;
+  const pdf =res.file.filename;
+  try{
+    await Pdf.create({title:title, pdf:pdf})
+    console.log(" pdf Uploaded Sucessfully")
+    res.send({satus:200});
+  }
+  catch(err){
+    console.log(err);
+    res.status(500).send({status: "error"});
+  }
+});
+
+
+
 
 
 app.get('/users', async (req, res) => {
@@ -121,7 +157,7 @@ app.delete('/user/:id', async (req, res) => {
 
 app.put('/edituser/:id', async (req, res) => {
   try {
-      const { id } = req.params;//.Get the ID from the request parameters
+      const { id } = req.params;
 
       const user = await User.findByIdAndUpdate(id, req.body);
 

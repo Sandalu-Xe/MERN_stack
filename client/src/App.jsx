@@ -27,7 +27,7 @@ function App() {
             <Route path="/adduser" element={<AddUser />} />
             <Route path="/edituser/:id" element={<EditUser />} />
             <Route path="/conatctus" element={<ContactUs />} />
-            <Route path="/sendpdf" element={<SendPdf />} />
+            <Route path="/uploadfile" element={<SendPdf />} />
           </Routes>
         </Container>
       </div>
