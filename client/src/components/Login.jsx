@@ -1,65 +1,87 @@
 import axios from 'axios';
 import React, { useState } from 'react';
-import { Form, Button, Container } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
-import { useSnackbar } from 'notistack';
+import { Form, Button, Container, Row, Col, Card } from 'react-bootstrap';
+import { useNavigate } from "react-router-dom";
 
 const LoginForm = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [loading, setLoading] = useState(false);
+  const [user, setUser] = useState({
+    password: "",
+    email: "",
+  });
   const navigate = useNavigate();
-  const { enqueueSnackbar } = useSnackbar();
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setUser((prevUser) => ({
+      ...prevUser,
+      [name]: value,
+    }));
+  };
+
+  // Define sendRequest function here
+  const sendRequest = async () => {
+    try {
+      const res = await axios.post('http://localhost:3001/login', {
+        email: user.email,
+        password: user.password,
+      });
+      return res.data;
+    } catch (error) {
+      throw new Error("Error connecting to the server");
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-     
-    console.log('Login details:', { email, password });
-    
     try {
-      const response = await axios.post('/api/login', { email, password });
-      console.log('Login successful:', response.data);
-      setLoading(false);
-      enqueueSnackbar('User registration successful', { variant: 'success' });
-      navigate('/');
-
-   
-    } catch (error) {
-      console.error('Login failed:', error);
-      setLoading(false);
-      enqueueSnackbar('Error occurred during registration', { variant: 'error' });
-      console.error(error);
-
+      const response = await sendRequest();
+      if (response.status === "ok") {
+        alert("Login success");
+        navigate("/");
+      } else {
+        alert("Login error");
+      }
+    } catch (err) {
+      alert("Error during login: " + err.message);
     }
   };
+
   return (
-    <Container>
-      <h2>Login</h2>
-      <Form onSubmit={handleSubmit}>
-        <Form.Group controlId="formEmail">
-          <Form.Label>Email address</Form.Label>
-          <Form.Control
-            type="email"
-            placeholder="Enter email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </Form.Group>
-
-        <Form.Group controlId="formPassword">
-          <Form.Label>Password</Form.Label>
-          <Form.Control
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </Form.Group>
-
-        <Button variant="primary" type="submit">
-          Login
-        </Button>
-      </Form>
+    <Container className="d-flex justify-content-center align-items-center" style={{ minHeight: "100vh" }}>
+      <Row>
+        <Col>
+          <Card className="shadow p-4" style={{ maxWidth: "400px" }}>
+            <Card.Body>
+              <h3 className="text-center mb-4">Login</h3>
+              <Form onSubmit={handleSubmit}>
+                <Form.Group controlId="formEmail" className="mb-3">
+                  <Form.Label>Email</Form.Label>
+                  <Form.Control
+                    type="email"
+                    name="email"
+                    value={user.email}
+                    onChange={handleInputChange}
+                    placeholder="Enter your email"
+                  />
+                </Form.Group>
+                <Form.Group controlId="formPassword" className="mb-3">
+                  <Form.Label>Password</Form.Label>
+                  <Form.Control
+                    type="password"
+                    name="password"
+                    value={user.password}
+                    onChange={handleInputChange}
+                    placeholder="Enter your password"
+                  />
+                </Form.Group>
+                <Button variant="primary" type="submit" className="w-100">
+                  Login
+                </Button>
+              </Form>
+            </Card.Body>
+          </Card>
+        </Col>
+      </Row>
     </Container>
   );
 };

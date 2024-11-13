@@ -51,8 +51,29 @@ app.post('/signup', async (req, res) => {
   }
 });
 
+//login
 
-// find 
+app.post("/login", async (req, res) => {
+  const { email, password } = req.body;
+  try {
+    const user = await Signup.findOne({ email });
+    if (!user) {
+      return res.json({ err: "User Not Found" });
+    }
+    if (user.password === password) {
+      return res.json({ status: "ok" });
+    } else {
+      return res.json({ status: "Incorrect Password" });
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ err: "Server Error" });
+  }
+});
+
+
+
+
 app.get('/users', async (req, res) => {
   try {
       // Retrieve all products from the database
@@ -65,7 +86,7 @@ app.get('/users', async (req, res) => {
   }
 })
 
-//user find by id
+
 
 app.get('/edituser/:id', async (req, res) => {
   const { id } = req.params; // Get the ID from the request parameters
@@ -80,7 +101,7 @@ app.get('/edituser/:id', async (req, res) => {
   }
 });
 
-// user delete by id 
+
 
 app.delete('/user/:id', async (req, res) => {
   const { id } = req.params; // Extract the ID from the request parameters
@@ -95,7 +116,7 @@ app.delete('/user/:id', async (req, res) => {
   }
 });
 
-// update user details by using id 
+ 
 
 app.put('/edituser/:id', async (req, res) => {
   try {
@@ -108,14 +129,14 @@ app.put('/edituser/:id', async (req, res) => {
       }
 
       const updateduser = await User.findById(id);
-      res.status(200).json(updateduser);// Return the updated product
+      res.status(200).json(updateduser);
 
   } catch (error) {
       res.status(500).json({ message: error.message }); // Handle any errors
   }
 });
 
-// Connect to MongoDB (example URL)
+
 mongoose.connect('mongodb+srv://user1:Thush12213@cluster0.9qwykfs.mongodb.net/MERN2?retryWrites=true&w=majority&appName=Cluster0', {
   
 }).then(() => {

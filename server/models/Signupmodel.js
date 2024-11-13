@@ -37,10 +37,10 @@ SignupSchema.pre('save', async function (next) {
   }
 
 
-  if (user.isModified('password')) {
-    const salt = await bcrypt.genSalt(10);
-    user.password = await bcrypt.hash(user.password, salt);
-  }
+  // if (user.isModified('password')) {
+  //   const salt = await bcrypt.genSalt(10);
+  //   user.password = await bcrypt.hash(user.password, salt);
+  // }
 
   // Remove confirmPassword field from the document before saving
   user.confirmPassword = undefined;
@@ -49,3 +49,16 @@ SignupSchema.pre('save', async function (next) {
 
 const Signup = mongoose.model("Signup", SignupSchema);
 module.exports = Signup;
+
+
+
+
+// {
+//   "name": "sandalu",
+//   "email": "thushan20@gamail.com",
+//   "password": "3030232",
+//   "_id": "67345c0ae6ccad1ea4cc5eaf",
+//   "createdAt": "2024-11-13T07:58:02.029Z",
+//   "updatedAt": "2024-11-13T07:58:02.029Z",
+//   "__v": 0
+// }
