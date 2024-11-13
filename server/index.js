@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const User = require('./models/usermode.js');
 const Signup=require('./models/Signupmodel.js')
+const pdf=require('./models/Pdfmodel.js')
 
 // Initialize the app
 const app = express();

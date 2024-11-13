@@ -19,6 +19,7 @@ const NaviBar = () => {
             <Nav.Link as={Link} to="/adduser"> <FaInfoCircle /> Add User</Nav.Link>
             <Nav.Link as={Link} to="/edituser"> <FaInfoCircle /> Edit User</Nav.Link>
             <Nav.Link as={Link} to="/conatctus"> <FaInfoCircle /> Contact Us</Nav.Link>
+            <Nav.Link as={Link} to="/sendpdf"> <FaInfoCircle /> Send Pdf</Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Container>

@@ -8,6 +8,7 @@ import NaviBar from './components/NaviBar';
 import AddUser from './components/AddUser';
 import EditUser from './components/EditUser';
 import ContactUs from './components/ContactUs';
+import SendPdf from './components/SendPdf';
 
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
             <Route path="/adduser" element={<AddUser />} />
             <Route path="/edituser/:id" element={<EditUser />} />
             <Route path="/conatctus" element={<ContactUs />} />
+            <Route path="/sendpdf" element={<SendPdf />} />
           </Routes>
         </Container>
       </div>
