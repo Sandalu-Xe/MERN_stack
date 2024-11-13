@@ -7,6 +7,7 @@ import Usertable from './components/Usertable';
 import NaviBar from './components/NaviBar';
 import AddUser from './components/AddUser';
 import EditUser from './components/EditUser';
+import ContactUs from './components/ContactUs';
 
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
             <Route path="/users" element={<Usertable />} />
             <Route path="/adduser" element={<AddUser />} />
             <Route path="/edituser/:id" element={<EditUser />} />
+            <Route path="/conatctus" element={<ContactUs />} />
           </Routes>
         </Container>
       </div>

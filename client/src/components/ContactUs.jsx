@@ -1,101 +1,41 @@
-import React, { useState } from 'react';
-import { Form, Button, Container, Row, Col, Card } from 'react-bootstrap';
+import React, { useRef } from 'react';
+import emailjs from '@emailjs/browser';
 
-const ContactUsForm = () => {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    subject: "",
-    message: ""
-  });
+export const ContactUs = () => {
+  const form = useRef();
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value
-    }));
-  };
-
-  const handleSubmit = (e) => {
+  const sendEmail = (e) => {
     e.preventDefault();
-    // Add form submission logic here
-    alert('Form submitted successfully!');
-    console.log(formData);
-    setFormData({
-      name: "",
-      email: "",
-      subject: "",
-      message: ""
-    });
+
+    emailjs
+      .sendForm('service_12213', 
+        'template_zgdddkb', 
+        form.current, {
+        publicKey: 'uxdriekI7IRCw5LYM',
+      })
+      .then(
+        (result) => {
+          console.log('SUCCESS!',result.text);
+          alert("sent sucessfully")
+        },
+        (error) => {
+          console.log('FAILED...', error.text);
+          alert("sending failed")
+        },
+      );
   };
 
   return (
-    <Container className="d-flex justify-content-center align-items-center" style={{ minHeight: "100vh" }}>
-      <Row>
-        <Col>
-          <Card className="shadow p-4" style={{ maxWidth: "600px" }}>
-            <Card.Body>
-              <h3 className="text-center mb-4">Contact Us</h3>
-              <Form onSubmit={handleSubmit}>
-                <Form.Group controlId="formName" className="mb-3">
-                  <Form.Label>Name</Form.Label>
-                  <Form.Control
-                    type="text"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleInputChange}
-                    placeholder="Enter your name"
-                    required
-                  />
-                </Form.Group>
-
-                <Form.Group controlId="formEmail" className="mb-3">
-                  <Form.Label>Email</Form.Label>
-                  <Form.Control
-                    type="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleInputChange}
-                    placeholder="Enter your email"
-                    required
-                  />
-                </Form.Group>
-
-                <Form.Group controlId="formSubject" className="mb-3">
-                  <Form.Label>Subject</Form.Label>
-                  <Form.Control
-                    type="text"
-                    name="subject"
-                    value={formData.subject}
-                    onChange={handleInputChange}
-                    placeholder="Enter subject"
-                  />
-                </Form.Group>
-
-                <Form.Group controlId="formMessage" className="mb-3">
-                  <Form.Label>Message</Form.Label>
-                  <Form.Control
-                    as="textarea"
-                    name="message"
-                    value={formData.message}
-                    onChange={handleInputChange}
-                    rows={4}
-                    placeholder="Enter your message"
-                    required
-                  />
-                </Form.Group>
-
-                <Button variant="primary" type="submit" className="w-100">
-                  Submit
-                </Button>
-              </Form>
-            </Card.Body>
-          </Card>
-        </Col>
-      </Row>
-    </Container>
+    <form ref={form} onSubmit={sendEmail}>
+      <label>Name</label>
+      <input type="text" name="user_name" />
+      <label>Email</label>
+      <input type="email" name="user_email" />
+      <label>Message</label>
+      <textarea name="message" />
+      <input type="submit" value="Send" />
+    </form>
   );
 };
 
-export default ContactUsForm;
+export default ContactUs
