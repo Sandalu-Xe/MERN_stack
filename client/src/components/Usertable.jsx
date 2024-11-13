@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Table, Button } from 'reactstrap';
+import { Table, Button, InputGroup, Row, Col, Container, Input } from 'reactstrap';
 import { useNavigate } from 'react-router-dom';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
@@ -8,6 +8,7 @@ const Usertable = () => {
   const [users, setItems] = useState([]);
   const navigate = useNavigate();
   const componentRef = useRef();
+  const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -55,14 +56,38 @@ const Usertable = () => {
     alert("Users Report Successfully Downloaded!");
   };
 
+  const filteredUsers = users.filter(user => 
+    user.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
+    user.email.toLowerCase().includes(searchTerm.toLowerCase()) || 
+    user.address.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <>
-      <Button color="secondary" onClick={handleDownloadPDF} className="mb-3">
-        Download PDF
-      </Button>
+
+<Container>
+      <Row className="mb-4">
+        <Col xs={12} md={8}>
+          <InputGroup>
+            <Input
+              type="text"
+              placeholder="Search by name, email, or address"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="shadow-sm"
+            />
+          </InputGroup>
+        </Col>
+        <Col xs={12} md={4} className="text-md-end mt-3 mt-md-0">
+          <Button color="secondary" onClick={handleDownloadPDF} className="shadow-sm">
+            Download PDF
+          </Button>
+        </Col>
+      </Row>
+
       <div ref={componentRef}>
-        <Table striped bordered hover>
-          <thead>
+        <Table striped bordered hover className="shadow-sm">
+          <thead className="table-dark">
             <tr>
               <th>#</th>
               <th>Name</th>
@@ -73,7 +98,7 @@ const Usertable = () => {
             </tr>
           </thead>
           <tbody>
-            {users.map((user, index) => (
+            {filteredUsers.map((user, index) => (
               <tr key={user._id}>
                 <td>{index + 1}</td>
                 <td>{user.name}</td>
@@ -81,10 +106,10 @@ const Usertable = () => {
                 <td>{user.address}</td>
                 <td>{user.age}</td>
                 <td>
-                  <Button color="primary" onClick={() => handleUpdate(user._id)} className="me-2">
+                  <Button color="primary" onClick={() => handleUpdate(user._id)} className="me-2 shadow-sm">
                     Update
                   </Button>
-                  <Button color="danger" onClick={() => handleDelete(user._id)}>
+                  <Button color="danger" onClick={() => handleDelete(user._id)} className="shadow-sm">
                     Delete
                   </Button>
                 </td>
@@ -93,7 +118,8 @@ const Usertable = () => {
           </tbody>
         </Table>
       </div>
-    </>
+    </Container>
+       </>
   );
 };
 
