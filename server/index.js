@@ -8,12 +8,11 @@ const Pdf=require('./models/Pdfmodel.js')
 const multer = require('multer');
 
 
-// Initialize the app
 const app = express();
 
 // Middleware
 app.use(cors());
-app.use(express.json()); // Parse JSON request bodies
+app.use(express.json()); 
 app.use("/files",express.static("files"));
 
 
@@ -24,7 +23,7 @@ app.get('/', async (req, res) => {
 app.post('/adduser', async (req, res) => {
   try {
     
-    //  const Product = await Product.create(req.body);
+
 
     const { name, email,password,address,age } = req.body;
 
@@ -41,7 +40,6 @@ app.post('/adduser', async (req, res) => {
 app.post('/signup', async (req, res) => {
   try {
     
-    //  const Product = await Product.create(req.body);
 
     const { name, email,password,confirmPassword } = req.body;
 
