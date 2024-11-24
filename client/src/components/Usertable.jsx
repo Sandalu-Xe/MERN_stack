@@ -62,6 +62,12 @@ const Usertable = () => {
     user.address.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  const haddlesenduserreport=()=>{
+    const phonenumber="+94761136338";
+    const messesge="selected user reports";
+ 
+  }
+
   return (
     <>
 

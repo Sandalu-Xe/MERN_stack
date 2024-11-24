@@ -1,4 +1,4 @@
-// Import required modules
+
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
@@ -10,7 +10,7 @@ const multer = require('multer');
 
 const app = express();
 
-// Middleware
+
 app.use(cors());
 app.use(express.json()); 
 app.use("/files",express.static("files"));

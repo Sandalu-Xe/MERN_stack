@@ -10,6 +10,7 @@ import EditUser from './components/EditUser';
 import ContactUs from './components/ContactUs';
 import SendPdf from './components/SendPdf';
 import PhotoUpload from './components/Uploadphoto';
+import WhatsAppSender from './components/WhatsappSender';
 
 
 function App() {
@@ -30,6 +31,7 @@ function App() {
             <Route path="/conatctus" element={<ContactUs />} />
             <Route path="/uploadfile" element={<SendPdf />} />
             <Route path="/uploadphoto" element={<PhotoUpload />} />
+            <Route path="/sendmessege" element={<WhatsAppSender />} />
           </Routes>
         </Container>
       </div>
@@ -39,3 +41,5 @@ function App() {
 }
 
 export default App
+
+

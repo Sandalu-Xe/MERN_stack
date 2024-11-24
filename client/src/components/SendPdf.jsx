@@ -37,7 +37,7 @@ function SendPdf() {
 
       if (result.data.status === 200) {
         alert("Upload Success");
-        getpdf();  // Refresh the list of PDFs after upload
+        getpdf();  
       }
     } catch (error) {
       console.error("Error uploading file:", error.message);
