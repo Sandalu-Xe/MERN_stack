@@ -11,6 +11,7 @@ import ContactUs from './components/ContactUs';
 import SendPdf from './components/SendPdf';
 import PhotoUpload from './components/Uploadphoto';
 import WhatsAppSender from './components/WhatsappSender';
+import AddToCart from './components/AddtoCart';
 
 
 function App() {
@@ -32,6 +33,7 @@ function App() {
             <Route path="/uploadfile" element={<SendPdf />} />
             <Route path="/uploadphoto" element={<PhotoUpload />} />
             <Route path="/sendmessege" element={<WhatsAppSender />} />
+            <Route path="/addtocard" element={< AddToCart/>} />
           </Routes>
         </Container>
       </div>
