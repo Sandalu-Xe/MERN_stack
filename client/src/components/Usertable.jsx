@@ -64,8 +64,9 @@ const Usertable = () => {
 
   const haddlesenduserreport=()=>{
     const phonenumber="+94761136338";
-    const messesge="selected user reports";
- 
+    const message="selected user reports";
+    const url = `https://wa.me/${phonenumber}?text=${encodeURIComponent(message)}`
+    window.open(url, '_blank');
   }
 
   return (
@@ -123,9 +124,12 @@ const Usertable = () => {
             ))}
           </tbody>
         </Table>
+        <Button color="danger" onClick={haddlesenduserreport} className="shadow-sm">
+                   Send Whatsapp Message
+        </Button>
       </div>
     </Container>
-       </>
+  </>
   );
 };
 
