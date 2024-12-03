@@ -10,7 +10,7 @@ const PhotoUpload = () => {
   const [title, setName] = useState(" ");
 
 
-  // Handle file selection
+
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -25,15 +25,13 @@ const PhotoUpload = () => {
   const handleUpload = async (e) => {
     e.preventDefault();
 
-
-
-    
     if (!selectedFile) {
       setMessage('Please select a file before uploading.');
       return;
     }
 
     const formData = new FormData();
+
     formData.append("title", title);
     formData.append('file', selectedFile);
 

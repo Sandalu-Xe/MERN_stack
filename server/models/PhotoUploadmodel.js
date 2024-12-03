@@ -1,16 +1,16 @@
 const mongoose = require("mongoose");
 const schema =mongoose.schema;
 
-const PdfSchema = new mongoose.Schema(
+const PhotoSchema = new mongoose.Schema(
   {
-    Pdf: {
+    file: {
       type: String,
-      required: [true, "Please enter your name"]
+      required: [true, "Please enter your photo"]
     },
 
     title: {
       type: String,
-      required: [true, "Please enter your email"],
+      required: [true, "Please enter your photo title"],
       unique: true 
     },
   },
@@ -19,6 +19,6 @@ const PdfSchema = new mongoose.Schema(
     timestamps: true 
   }
 );
-const Pdf = mongoose.model("Pdf", PdfSchema);
-module.exports = Pdf;
+const images = mongoose.model("Photos", PhotoSchema);
+module.exports = images;
 

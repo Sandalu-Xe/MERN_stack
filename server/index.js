@@ -5,9 +5,9 @@ const cors = require('cors');
 const User = require('./models/usermode.js');
 const Signup=require('./models/Signupmodel.js')
 const Pdf=require('./models/Pdfmodel.js')
-const multer = require('multer');
 
-
+const multer  = require('multer')
+const upload = multer({ dest: 'uploads/' })
 const app = express();
 
 
@@ -72,9 +72,11 @@ app.post("/login", async (req, res) => {
     res.status(500).json({ err: "Server Error" });
   }
 });
+s
 
+// images uploader
 
-//pdf
+//pdf uploaders
 
 // Configure storage for multer
 const storage = multer.diskStorage({
@@ -88,7 +90,7 @@ const storage = multer.diskStorage({
 });
 
 // Set up multer with the configured storage
-const upload = multer({ storage: storage });
+
 
 app.post("/uploadfile",upload.single('file'),async(req,res)=>{
   console.log(res.file);

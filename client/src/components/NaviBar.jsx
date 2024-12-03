@@ -23,11 +23,12 @@ const NaviBar = () => {
             <Nav.Link as={Link} to="/uploadphoto"> <FaInfoCircle /> Upload Photo</Nav.Link>
             <Nav.Link as={Link} to="/sendmessege"> <FaInfoCircle /> Send Messege</Nav.Link>
             <Nav.Link as={Link} to="/addtocard"> <FaInfoCircle /> Add to Card</Nav.Link>
+            <Nav.Link as={Link} to="/imagesupload"> <FaInfoCircle /> Images Uploader</Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Container>
     </Navbar>
-  ); 
+  );
 };
 
 export default NaviBar;
