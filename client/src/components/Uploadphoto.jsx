@@ -22,7 +22,10 @@ const PhotoUpload = () => {
 
 
   // Handle file upload
-  const handleUpload = async () => {
+  const handleUpload = async (e) => {
+    e.preventDefault();
+
+
 
     
     if (!selectedFile) {
@@ -31,6 +34,7 @@ const PhotoUpload = () => {
     }
 
     const formData = new FormData();
+    formData.append("title", title);
     formData.append('file', selectedFile);
 
     try {

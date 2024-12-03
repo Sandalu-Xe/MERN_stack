@@ -2,22 +2,16 @@ import React, { useState } from 'react';
 import { Container, Card, Button, Row, Col, Badge } from 'react-bootstrap';
 
 const AddToCart = () => {
-  // Sample product list
+
   const products = [
     { id: 1, name: 'Product 1', price: 10 },
     { id: 2, name: 'Product 2', price: 15 },
     { id: 3, name: 'Product 3', price: 20 },
   ];
-
-  // Cart state
   const [cart, setCart] = useState([]);
-
-  // Add product to cart
   const addToCart = (product) => {
     setCart((prevCart) => [...prevCart, product]);
   };
-
-  // Calculate total price
   const totalPrice = cart.reduce((acc, item) => acc + item.price, 0);
 
   return (
