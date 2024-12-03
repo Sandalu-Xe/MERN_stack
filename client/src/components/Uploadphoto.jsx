@@ -10,7 +10,6 @@ const PhotoUpload = () => {
   const [title, setName] = useState(" ");
 
 
-
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -40,7 +39,7 @@ const PhotoUpload = () => {
       setMessage('');
 
       // Replace the URL with your backend endpoint
-      const response = await axios.post('https://your-backend-endpoint/upload', formData, {
+      const response = await axios.post('http://localhost:3001/users/upload', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },

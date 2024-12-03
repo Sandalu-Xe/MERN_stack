@@ -6,6 +6,7 @@ const User = require('./models/usermode.js');
 const Signup=require('./models/Signupmodel.js')
 const Pdf=require('./models/Pdfmodel.js')
 
+
 const multer  = require('multer')
 const upload = multer({ dest: 'uploads/' })
 const app = express();
@@ -72,9 +73,30 @@ app.post("/login", async (req, res) => {
     res.status(500).json({ err: "Server Error" });
   }
 });
-s
+
 
 // images uploader
+
+app.post('/upload', upload.single('images'), async (req, res) => {
+  try {
+    res.status(200).json({ message: 'File uploaded successfully', filePath: `/files/${req.file.filename}` });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+const storages = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, '/uploads')
+  },
+  filename: function (req, file, cb) {
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
+    cb(null, file.fieldname + '-' + uniqueSuffix)
+  }
+})
+
+
+ 
+
 
 //pdf uploaders
 
@@ -98,7 +120,7 @@ app.post("/uploadfile",upload.single('file'),async(req,res)=>{
   const pdf =res.file.filename;
   try{
     await Pdf.create({title:title, pdf:pdf})
-    console.log(" pdf Uploaded Sucessfully")
+    console.log("pdf Uploaded Sucessfully")
     res.send({satus:200});
   }
   catch(err){
