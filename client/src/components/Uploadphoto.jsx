@@ -7,18 +7,24 @@ const PhotoUpload = () => {
   const [preview, setPreview] = useState(null);
   const [uploading, setUploading] = useState(false);
   const [message, setMessage] = useState('');
+  const [title, setName] = useState(" ");
+
 
   // Handle file selection
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
       setSelectedFile(file);
-      setPreview(URL.createObjectURL(file)); // Generate preview
+      setPreview(URL.createObjectURL(file)); 
+      // Generate preview
     }
   };
 
+
   // Handle file upload
   const handleUpload = async () => {
+
+    
     if (!selectedFile) {
       setMessage('Please select a file before uploading.');
       return;
@@ -51,6 +57,16 @@ const PhotoUpload = () => {
   return (
     <div className="container mt-5">
       <h3 className="text-center">Photo Upload</h3>
+      <Form.Group controlId="formPdfTitle">
+          <Form.Label>Photo name</Form.Label>
+          <Form.Control 
+            type="text" 
+            placeholder="Enter PDF title" 
+            value={title}
+            onChange={(e) => setName(e.target.value)}
+            required 
+          />
+        </Form.Group>
       <Form>
         <Form.Group controlId="formFile" className="mb-3">
           <Form.Label>Select a photo to upload</Form.Label>
