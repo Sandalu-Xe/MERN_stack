@@ -115,9 +115,16 @@ const upload = multer({
     }
   },
 });
-app.post("/uploadfile", upload.single("file"), (req, res) => {
+app.post("/uploadfile", upload.single("file"), async (req, res) => {
   try {
     const { title ,pdf} = req.body;
+    const newpdf = new Pdf({title, pdf });
+    const savedpdf = await newpdf.save();
+
+    res.status(200).json(savedpdf);
+    
+    
+
     if (!req.file) {
       return res.status(400).json({ status: 400, message: "No file uploaded" });
     }
@@ -156,11 +163,6 @@ app.get("/sendfile", (req, res) => {
     res.status(500).json({ status: 500, message: "Error fetching files" });
   }
 });
-
-
-
-
-
 
 
 app.get('/users', async (req, res) => {
