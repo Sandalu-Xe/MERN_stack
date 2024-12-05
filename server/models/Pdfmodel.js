@@ -7,7 +7,6 @@ const PdfSchema = new mongoose.Schema(
       type: String,
       required: [true, "Please enter your name"]
     },
-
     title: {
       type: String,
       required: [true, "Please enter your email"],

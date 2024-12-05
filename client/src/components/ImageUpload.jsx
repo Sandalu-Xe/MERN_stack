@@ -1,26 +1,35 @@
 import { useState } from "react";
-import axios from 'axios';
+import axios from "axios";
 
+function ImageUploader() {
+  const [image, setImage] = useState(null);
 
-async function Imageuploader() {
-  const [image, setImage] = useState();
+  const onInputChange = (e) => {
+    console.log(e.target.files[0]);
+    setImage(e.target.files[0]); // Set the selected file to the state
+  };
 
   const submitImage = async (e) => {
     e.preventDefault();
 
+    if (!image) {
+      alert("Please select an image first!");
+      return;
+    }
+
     const formData = new FormData();
     formData.append("image", image);
-  };
 
-  const response =  await axios.post('http://localhost:3001/upload',formData, {
-    headers: {
-      'Content-Type': 'multipart/form-data',
-    },
-  });
-
-  const onInputChange = (e) => {
-    console.log(e.target.files[0]);
-    setImage(e.target.files[0]);
+    try {
+      const response = await axios.post("http://localhost:3001/upload", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      console.log("Image uploaded successfully:", response.data);
+    } catch (error) {
+      console.error("Error uploading the image:", error);
+    }
   };
 
   return (
@@ -33,4 +42,4 @@ async function Imageuploader() {
   );
 }
 
-export default Imageuploader;
+export default ImageUploader;

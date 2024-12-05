@@ -2,10 +2,10 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const path = require('path');
 const User = require('./models/usermode.js');
 const Signup=require('./models/Signupmodel.js')
 const Pdf=require('./models/Pdfmodel.js')
-
 
 const multer  = require('multer')
 const upload = multer({ dest: 'uploads/' })
@@ -77,57 +77,13 @@ app.post("/login", async (req, res) => {
 
 // images uploader
 
-app.post('/upload', upload.single('images'), async (req, res) => {
-  try {
-    res.status(200).json({ message: 'File uploaded successfully', filePath: `/files/${req.file.filename}` });
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-});
-const storages = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, '/uploads')
-  },
-  filename: function (req, file, cb) {
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
-    cb(null, file.fieldname + '-' + uniqueSuffix)
-  }
-})
-
 
  
 
 
 //pdf uploaders
 
-// Configure storage for multer
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, 'uploads/'); // Directory where files will be stored
-  },
-  filename: function (req, file, cb) {
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-    cb(null, uniqueSuffix + path.extname(file.originalname)); // Save file with unique name
-  }
-});
 
-// Set up multer with the configured storage
-
-
-app.post("/uploadfile",upload.single('file'),async(req,res)=>{
-  console.log(res.file);
-  const title = res.body.title;
-  const pdf =res.file.filename;
-  try{
-    await Pdf.create({title:title, pdf:pdf})
-    console.log("pdf Uploaded Sucessfully")
-    res.send({satus:200});
-  }
-  catch(err){
-    console.log(err);
-    res.status(500).send({status: "error"});
-  }
-});
 
 
 
