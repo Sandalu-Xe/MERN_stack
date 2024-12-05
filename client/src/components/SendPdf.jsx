@@ -13,7 +13,7 @@ function SendPdf() {
 
   const getpdf = async () => {
     try {
-      const result = await axios.get("http://localhost:3001/getFile");
+      const result = await axios.get("http://localhost:3001/sendfile");
       console.log(result.data.data);
       setAllPdf(result.data.data);
     } catch (error) {

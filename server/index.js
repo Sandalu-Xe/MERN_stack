@@ -10,11 +10,18 @@ const Pdf=require('./models/Pdfmodel.js')
 const multer  = require('multer')
 const upload = multer({ dest: 'uploads/' })
 const app = express();
+const bodyParser = require("body-parser");
+const fs = require("fs");
 
 
 app.use(cors());
 app.use(express.json()); 
 app.use("/files",express.static("files"));
+
+// Middleware
+app.use(cors());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 
 app.get('/', async (req, res) => {
@@ -74,16 +81,52 @@ app.post("/login", async (req, res) => {
   }
 });
 
+// upload Images
 
-// images uploader
+// Directory to store uploaded files
+const UPLOADS_DIR = "./uploads";
+if (!fs.existsSync(UPLOADS_DIR)) {
+  fs.mkdirSync(UPLOADS_DIR);
+}
 
+// Multer configuration for file uploads
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, UPLOADS_DIR);
+  },
+  filename: (req, file, cb) => {
+    cb(null, `${Date.now()}-${file.originalname}`);
+  },
+});
 
+const upload = multer({
+  storage,
+  fileFilter: (req, file, cb) => {
+    if (file.mimetype === "application/pdf") {
+      cb(null, true);
+    } else {
+      cb(new Error("Only PDF files are allowed"), false);
+    }
+  },
+});
  
 
 
-//pdf uploaders
+//Send PdfImage
+app.post('/uploadfile', async (req, res) => {
+  try {
+    
+    const { pdf,title} = req.body;
 
+    const newpdf = new Pdf({ pdf,title });
+    const savedpdf = await newpdf.save();
 
+    res.status(200).json(savedpdf);
+   
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
 
 
 
@@ -100,7 +143,6 @@ app.get('/users', async (req, res) => {
       res.status(500).json({ message: error.message });
   }
 })
-
 
 
 app.get('/edituser/:id', async (req, res) => {

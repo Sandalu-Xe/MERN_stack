@@ -1,9 +1,8 @@
 const mongoose = require("mongoose");
 const schema =mongoose.schema;
-
 const PdfSchema = new mongoose.Schema(
   {
-    Pdf: {
+    pdf: {
       type: String,
       required: [true, "Please enter your name"]
     },
