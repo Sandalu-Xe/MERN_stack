@@ -8,7 +8,7 @@ const Signup=require('./models/Signupmodel.js')
 const Pdf=require('./models/Pdfmodel.js')
 
 const multer  = require('multer')
-const upload = multer({ dest: 'uploads/' })
+
 const app = express();
 const bodyParser = require("body-parser");
 const fs = require("fs");
@@ -47,8 +47,7 @@ app.post('/adduser', async (req, res) => {
 
 app.post('/signup', async (req, res) => {
   try {
-    
-
+  
     const { name, email,password,confirmPassword } = req.body;
 
     const newuser = new Signup({ name, email, password,confirmPassword});
@@ -83,6 +82,13 @@ app.post("/login", async (req, res) => {
 
 // upload Images
 
+
+ 
+
+
+//Send PdfImage
+
+
 // Directory to store uploaded files
 const UPLOADS_DIR = "./uploads";
 if (!fs.existsSync(UPLOADS_DIR)) {
@@ -109,24 +115,49 @@ const upload = multer({
     }
   },
 });
- 
-
-
-//Send PdfImage
-app.post('/uploadfile', async (req, res) => {
+app.post("/uploadfile", upload.single("file"), (req, res) => {
   try {
-    
-    const { pdf,title} = req.body;
+    const { title ,pdf} = req.body;
+    if (!req.file) {
+      return res.status(400).json({ status: 400, message: "No file uploaded" });
+    }
 
-    const newpdf = new Pdf({ pdf,title });
-    const savedpdf = await newpdf.save();
+    // Save metadata (optional)
+    const metadata = {
+      title,pdf,
+      filePath: req.file.path,
+      fileName: req.file.filename,
+    };
 
-    res.status(200).json(savedpdf);
-   
+    // You can save this metadata to a database instead
+    const metadataPath = path.join(UPLOADS_DIR, "metadata.json");
+    const existingData = fs.existsSync(metadataPath)
+      ? JSON.parse(fs.readFileSync(metadataPath, "utf8"))
+      : [];
+    existingData.push(metadata);
+    fs.writeFileSync(metadataPath, JSON.stringify(existingData, null, 2));
+
+    res.status(200).json({ status: 200, message: "File uploaded successfully", metadata });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    console.error("Error uploading file:", error.message);
+    res.status(500).json({ status: 500, message: "Error uploading file" });
   }
 });
+
+app.get("/sendfile", (req, res) => {
+  try {
+    const metadataPath = path.join(UPLOADS_DIR, "metadata.json");
+    const files = fs.existsSync(metadataPath)
+      ? JSON.parse(fs.readFileSync(metadataPath, "utf8"))
+      : [];
+    res.status(200).json({ status: 200, data: files });
+  } catch (error) {
+    console.error("Error fetching files:", error.message);
+    res.status(500).json({ status: 500, message: "Error fetching files" });
+  }
+});
+
+
 
 
 
