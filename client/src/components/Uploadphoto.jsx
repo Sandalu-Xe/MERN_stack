@@ -18,6 +18,7 @@ const PhotoUpload = () => {
       // Generate preview
     }
   };
+  
 
 
   // Handle file upload
