@@ -5,10 +5,9 @@ const cors = require('cors');
 const path = require('path');
 const User = require('./models/usermode.js');
 const Signup=require('./models/Signupmodel.js')
-const Pdf=require('./models/Pdfmodel.js')
+
 
 const multer  = require('multer')
-
 const app = express();
 const bodyParser = require("body-parser");
 const fs = require("fs");
@@ -31,10 +30,7 @@ app.get('/', async (req, res) => {
 app.post('/adduser', async (req, res) => {
   try {
     
-
-
     const { name, email,password,address,age } = req.body;
-
     const newuser = new User({ name, email, password,age, address });
     const saveduser = await newuser.save();
 
@@ -115,23 +111,18 @@ const upload = multer({
     }
   },
 });
-app.post("/uploadfile", upload.single("file"), async (req, res) => {
+
+// Route to handle file upload
+app.post("/uploadfile", upload.single("file"), (req, res) => {
   try {
-    const { title ,pdf} = req.body;
-    const newpdf = new Pdf({title, pdf });
-    const savedpdf = await newpdf.save();
-
-    res.status(200).json(savedpdf);
-    
-    
-
+    const { title } = req.body;
     if (!req.file) {
       return res.status(400).json({ status: 400, message: "No file uploaded" });
     }
 
     // Save metadata (optional)
     const metadata = {
-      title,pdf,
+      title,
       filePath: req.file.path,
       fileName: req.file.filename,
     };
@@ -151,6 +142,7 @@ app.post("/uploadfile", upload.single("file"), async (req, res) => {
   }
 });
 
+// Route to fetch all uploaded files
 app.get("/sendfile", (req, res) => {
   try {
     const metadataPath = path.join(UPLOADS_DIR, "metadata.json");
@@ -163,6 +155,7 @@ app.get("/sendfile", (req, res) => {
     res.status(500).json({ status: 500, message: "Error fetching files" });
   }
 });
+
 
 
 app.get('/users', async (req, res) => {
