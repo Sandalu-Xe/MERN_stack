@@ -5,6 +5,7 @@ const cors = require('cors');
 const path = require('path');
 const User = require('./models/usermode.js');
 const Signup=require('./models/Signupmodel.js')
+const Pdfmodel = require('./models/Pdfmodel.js');
 
 
 const multer  = require('multer')
@@ -113,14 +114,23 @@ const upload = multer({
 });
 
 // Route to handle file upload
-app.post("/uploadfile", upload.single("file"), (req, res) => {
+app.post("/uploadfile", upload.single("file"), async (req, res) => {
   try {
     const { title } = req.body;
     if (!req.file) {
       return res.status(400).json({ status: 400, message: "No file uploaded" });
     }
 
+    const pdfData = new Pdfmodel({
+      title,
+      fileName: req.file.filename,
+      filePath: `/uploads/${req.file.filename}`,
+    });
+
+    const savedPdf = await pdfData.save();
+
     // Save metadata (optional)
+
     const metadata = {
       title,
       filePath: req.file.path,
@@ -157,7 +167,6 @@ app.get("/sendfile", (req, res) => {
 });
 
 
-
 app.get('/users', async (req, res) => {
   try {
       // Retrieve all products from the database
@@ -169,7 +178,6 @@ app.get('/users', async (req, res) => {
       res.status(500).json({ message: error.message });
   }
 })
-
 
 app.get('/edituser/:id', async (req, res) => {
   const { id } = req.params; // Get the ID from the request parameters
