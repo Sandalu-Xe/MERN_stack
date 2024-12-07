@@ -1,106 +1,106 @@
-import React, { useState } from 'react';
-import { Form, Button, Alert, Image, Spinner } from 'react-bootstrap';
+import React, { useState, useEffect } from 'react';
+import { Container, Form, Button, Image, ListGroup } from 'react-bootstrap';
 import axios from 'axios';
 
-const PhotoUpload = () => {
-  const [selectedFile, setSelectedFile] = useState(null);
-  const [preview, setPreview] = useState(null);
-  const [uploading, setUploading] = useState(false);
-  const [message, setMessage] = useState('');
-  const [title, setName] = useState(" ");
+function PhotoUpload() {
+  const [title, setTitle] = useState('');
+  const [file, setFile] = useState(null);
+  const [allPhotos, setAllPhotos] = useState([]);
 
+  // Fetch photos on component mount
+  useEffect(() => {
+    fetchPhotos();
+  }, []);
 
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setSelectedFile(file);
-      setPreview(URL.createObjectURL(file)); 
-      // Generate preview
+  const fetchPhotos = async () => {
+    try {
+      const result = await axios.get('http://localhost:3001/photos');
+      setAllPhotos(result.data.data);
+    } catch (error) {
+      console.error('Error fetching photos:', error.message);
     }
   };
-  
 
-
-  // Handle file upload
-  const handleUpload = async (e) => {
+  const submitPhoto = async (e) => {
     e.preventDefault();
 
-    if (!selectedFile) {
-      setMessage('Please select a file before uploading.');
+    if (!file) {
+      alert('Please select a photo before submitting.');
       return;
     }
 
     const formData = new FormData();
-
-    formData.append("title", title);
-    formData.append('file', selectedFile);
+    formData.append('title', title);
+    formData.append('file', file);
 
     try {
-      setUploading(true);
-      setMessage('');
-
-      // Replace the URL with your backend endpoint
-      const response = await axios.post('http://localhost:3001/users/upload', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
+      const result = await axios.post('http://localhost:3001/uploadphoto', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
       });
 
-      setMessage('File uploaded successfully!');
-      console.log('Server Response:', response.data);
+      if (result.data.status === 200) {
+        alert('Photo uploaded successfully!');
+        setTitle('');
+        setFile(null);
+        fetchPhotos(); // Refresh the photo list
+      }
     } catch (error) {
-      console.error('Error uploading file:', error);
-      setMessage('File upload failed!');
-    } finally {
-      setUploading(false);
+      console.error('Error uploading photo:', error.message);
+      alert('Error uploading photo');
     }
   };
 
   return (
-    <div className="container mt-5">
-      <h3 className="text-center">Photo Upload</h3>
-      <Form.Group controlId="formPdfTitle">
-          <Form.Label>Photo name</Form.Label>
-          <Form.Control 
-            type="text" 
-            placeholder="Enter PDF title" 
+    <Container className="mt-5">
+      <h1>Upload Photo</h1>
+      <Form onSubmit={submitPhoto}>
+        <Form.Group controlId="formPhotoTitle">
+          <Form.Label>Photo Title</Form.Label>
+          <Form.Control
+            type="text"
+            placeholder="Enter photo title"
             value={title}
-            onChange={(e) => setName(e.target.value)}
-            required 
+            onChange={(e) => setTitle(e.target.value)}
+            required
           />
         </Form.Group>
-      <Form>
-        <Form.Group controlId="formFile" className="mb-3">
-          <Form.Label>Select a photo to upload</Form.Label>
-          <Form.Control type="file" accept="image/*" onChange={handleFileChange} />
+
+        <Form.Group controlId="formFile" className="mt-3">
+          <Form.Label>Select Photo</Form.Label>
+          <Form.Control
+            type="file"
+            accept="image/*"
+            onChange={(e) => setFile(e.target.files[0])}
+            required
+          />
         </Form.Group>
 
-        {preview && (
-          <div className="text-center mb-3">
-            <Image src={preview} thumbnail style={{ maxHeight: '200px' }} />
+        {file && (
+          <div className="mt-3">
+            <Image src={URL.createObjectURL(file)} thumbnail style={{ maxHeight: '200px' }} />
           </div>
         )}
 
-        <div className="text-center">
-          <Button variant="primary" onClick={handleUpload} disabled={uploading}>
-            {uploading ? (
-              <>
-                <Spinner animation="border" size="sm" /> Uploading...
-              </>
-            ) : (
-              'Upload Photo'
-            )}
-          </Button>
-        </div>
+        <Button variant="primary" type="submit" className="mt-3">
+          Submit
+        </Button>
       </Form>
 
-      {message && (
-        <Alert variant={message.includes('successfully') ? 'success' : 'danger'} className="mt-3">
-          {message}
-        </Alert>
+      <h2 className="mt-5">Uploaded Photos</h2>
+      {allPhotos.length > 0 ? (
+        <ListGroup>
+          {allPhotos.map((photo) => (
+            <ListGroup.Item key={photo.id}>
+              <p>{photo.title}</p>
+              <img src={photo.url} alt={photo.title} style={{ maxWidth: '150px', maxHeight: '150px' }} />
+            </ListGroup.Item>
+          ))}
+        </ListGroup>
+      ) : (
+        <p>No photos uploaded yet.</p>
       )}
-    </div>
+    </Container>
   );
-};
+}
 
 export default PhotoUpload;

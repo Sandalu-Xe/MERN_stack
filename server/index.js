@@ -23,6 +23,9 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+// Connect 
+app.use('/photouploads', express.static(path.join(__dirname, 'photouploads'))); 
+
 
 app.get('/', async (req, res) => {
   res.send(" hello from node api sandalu thushan ");
@@ -79,8 +82,73 @@ app.post("/login", async (req, res) => {
 
 // upload Images
 
+// Storage configuration for Multer
+const storag = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'photouploads/');
+  },
+  filename: (req, file, cb) => {
+    cb(null, `${Date.now()}-${file.originalname}`);
+  },
+});
 
- 
+const uploads = multer({
+  storage: storag,
+  fileFilter: (req, file, cb) => {
+    const fileTypes = /jpeg|jpg|png/;
+    const extName = fileTypes.test(path.extname(file.originalname).toLowerCase());
+    const mimeType = fileTypes.test(file.mimetype);
+
+    if (extName && mimeType) {
+      cb(null, true);
+    } else {
+      cb(new Error('Only JPEG, JPG, or PNG files are allowed!'));
+    }
+  },
+});
+
+// Mock database (in-memory storage)
+let photos = [];
+
+// Routes
+
+
+// 1. Fetch all photos
+app.get('/photos', (req, res) => {
+  res.json({ data: photos });
+});
+
+// 2. Upload photo
+app.post('/uploadphoto', uploads.single('file'), (req, res) => {
+  const { title } = req.body;
+
+  if (!req.file) {
+    return res.status(400).json({ status: 400, message: 'File not uploaded' });
+  }
+
+  const newPhoto = {
+    id: Date.now(),
+    title: title,
+    url: `http://localhost:${PORT}/uploads/${req.file.filename}`,
+  };
+
+  photos.push(newPhoto);
+
+  res.status(200).json({ status: 200, message: 'Photo uploaded successfully', data: newPhoto });
+});
+
+// Error handling middleware for file upload
+app.use((err, req, res, next) => {
+  if (err instanceof multer.MulterError) {
+    return res.status(500).json({ status: 500, message: err.message });
+  } else if (err) {
+    return res.status(400).json({ status: 400, message: err.message });
+  }
+  next();
+});
+
+
+
 
 
 //Send PdfImage
@@ -114,7 +182,7 @@ const upload = multer({
 });
 
 // Route to handle file upload
-app.post("/uploadfile", upload.single("file"), async (req, res) => {
+app.post("/uploadfile", uploads.single("file"), async (req, res) => {
   try {
     const { title } = req.body;
     if (!req.file) {
