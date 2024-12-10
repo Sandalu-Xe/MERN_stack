@@ -16,7 +16,7 @@ const fs = require("fs");
 
 app.use(cors());
 app.use(express.json()); 
-app.use("/files",express.static("files"));
+app.use(express.static("uploads")); 
 
 // Middleware
 app.use(cors());
@@ -24,7 +24,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Connect 
-app.use('/photouploads', express.static(path.join(__dirname, 'photouploads'))); 
+
 
 
 app.get('/', async (req, res) => {
@@ -65,7 +65,7 @@ app.post('/signup', async (req, res) => {
 app.post("/login", async (req, res) => {
   const { email, password } = req.body;
   try {
-    const user = await Signup.findOne({ email });
+    const user = await Signup.findOne({ email });s
     if (!user) {
       return res.json({ err: "User Not Found" });
     }
@@ -82,158 +82,68 @@ app.post("/login", async (req, res) => {
 
 // upload Images
 
-// Storage configuration for Multer
-const storag = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, 'photouploads/');
-  },
-  filename: (req, file, cb) => {
-    cb(null, `${Date.now()}-${file.originalname}`);
-  },
-});
-
-const uploads = multer({
-  storage: storag,
-  fileFilter: (req, file, cb) => {
-    const fileTypes = /jpeg|jpg|png/;
-    const extName = fileTypes.test(path.extname(file.originalname).toLowerCase());
-    const mimeType = fileTypes.test(file.mimetype);
-
-    if (extName && mimeType) {
-      cb(null, true);
-    } else {
-      cb(new Error('Only JPEG, JPG, or PNG files are allowed!'));
-    }
-  },
-});
-
-// Mock database (in-memory storage)
-let photos = [];
-
-// Routes
-
-
-// 1. Fetch all photos
-app.get('/photos', (req, res) => {
-  res.json({ data: photos });
-});
-
-// 2. Upload photo
-app.post('/uploadphoto', uploads.single('file'), (req, res) => {
-  const { title } = req.body;
-
-  if (!req.file) {
-    return res.status(400).json({ status: 400, message: 'File not uploaded' });
-  }
-
-  const newPhoto = {
-    id: Date.now(),
-    title: title,
-    url: `http://localhost:${PORT}/uploads/${req.file.filename}`,
-  };
-
-  photos.push(newPhoto);
-
-  res.status(200).json({ status: 200, message: 'Photo uploaded successfully', data: newPhoto });
-});
-
-// Error handling middleware for file upload
-app.use((err, req, res, next) => {
-  if (err instanceof multer.MulterError) {
-    return res.status(500).json({ status: 500, message: err.message });
-  } else if (err) {
-    return res.status(400).json({ status: 400, message: err.message });
-  }
-  next();
-});
-
-
-
 
 
 //Send PdfImage
 
+// Directory for uploads
+const pdfs = [];
 
-// Directory to store uploaded files
-const UPLOADS_DIR = "./uploads";
-if (!fs.existsSync(UPLOADS_DIR)) {
-  fs.mkdirSync(UPLOADS_DIR);
-}
-
-// Multer configuration for file uploads
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, UPLOADS_DIR);
+    cb(null, "uploads/"); // Directory to save files
   },
   filename: (req, file, cb) => {
-    cb(null, `${Date.now()}-${file.originalname}`);
+    cb(null, `${Date.now()}-${file.originalname}`); // Unique filename
   },
 });
 
 const upload = multer({
   storage,
   fileFilter: (req, file, cb) => {
-    if (file.mimetype === "application/pdf") {
+    const fileTypes = /pdf/; // Accept only PDFs
+    const extName = fileTypes.test(path.extname(file.originalname).toLowerCase());
+    const mimeType = fileTypes.test(file.mimetype);
+
+    if (extName && mimeType) {
       cb(null, true);
     } else {
-      cb(new Error("Only PDF files are allowed"), false);
+      cb(new Error("Only PDF files are allowed!"));
     }
   },
 });
 
-// Route to handle file upload
-app.post("/uploadfile", uploads.single("file"), async (req, res) => {
+// Fetch all uploaded PDFs
+app.get("/sendfile", (req, res) => {
+  res.json({ data: pdfs });
+});
+
+// Upload a new PDF
+app.post("/uploadfile", upload.single("file"), (req, res) => {
   try {
     const { title } = req.body;
+
     if (!req.file) {
-      return res.status(400).json({ status: 400, message: "No file uploaded" });
+      return res.status(400).json({ message: "File is required" });
     }
 
-    const pdfData = new Pdfmodel({
+    if (!title) {
+      return res.status(400).json({ message: "Title is required" });
+    }
+
+    // Save metadata
+    pdfs.push({
       title,
-      fileName: req.file.filename,
-      filePath: `/uploads/${req.file.filename}`,
+      filePath: `http://localhost:${PORT}/${req.file.filename}`,
     });
 
-    const savedPdf = await pdfData.save();
-
-    // Save metadata (optional)
-
-    const metadata = {
-      title,
-      filePath: req.file.path,
-      fileName: req.file.filename,
-    };
-
-    // You can save this metadata to a database instead
-    const metadataPath = path.join(UPLOADS_DIR, "metadata.json");
-    const existingData = fs.existsSync(metadataPath)
-      ? JSON.parse(fs.readFileSync(metadataPath, "utf8"))
-      : [];
-    existingData.push(metadata);
-    fs.writeFileSync(metadataPath, JSON.stringify(existingData, null, 2));
-
-    res.status(200).json({ status: 200, message: "File uploaded successfully", metadata });
+    res.status(200).json({ message: "File uploaded successfully" });
   } catch (error) {
     console.error("Error uploading file:", error.message);
-    res.status(500).json({ status: 500, message: "Error uploading file" });
+    res.status(500).json({ message: "Internal Server Error" });
   }
 });
-
-// Route to fetch all uploaded files
-app.get("/sendfile", (req, res) => {
-  try {
-    const metadataPath = path.join(UPLOADS_DIR, "metadata.json");
-    const files = fs.existsSync(metadataPath)
-      ? JSON.parse(fs.readFileSync(metadataPath, "utf8"))
-      : [];
-    res.status(200).json({ status: 200, data: files });
-  } catch (error) {
-    console.error("Error fetching files:", error.message);
-    res.status(500).json({ status: 500, message: "Error fetching files" });
-  }
-});
-
+ 
 
 app.get('/users', async (req, res) => {
   try {

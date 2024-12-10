@@ -4,51 +4,56 @@ import axios from 'axios';
 
 function SendPdf() {
   const [title, setTitle] = useState("");
-  const [file, saveFile] = useState(null);
+  const [file, setFile] = useState(null);
   const [allPdf, setAllPdf] = useState([]);
 
   useEffect(() => {
-    getpdf();
+    fetchPdfs();
   }, []);
 
-  const getpdf = async () => {
+  const fetchPdfs = async () => {
     try {
-      const result = await axios.get("http://localhost:3001/sendfile");
-      console.log(result.data.data);
-      setAllPdf(result.data.data);
+      const response = await axios.get("http://localhost:3001/sendfile");
+      setAllPdf(response.data.data); 
     } catch (error) {
       console.error("Error fetching PDFs:", error.message);
     }
   };
 
-  const submitPdf = async (e) => {
+  const handlePdfUpload = async (e) => {
     e.preventDefault();
+
+    if (!file) {
+      alert("Please select a file to upload.");
+      return;
+    }
 
     const formData = new FormData();
     formData.append("title", title);
     formData.append("file", file);
 
+ 
     try {
-      const result = await axios.post("http://localhost:3001/uploadfile", formData, {
-        headers: { 'Content-Type': 'multipart/form-data' }
+      const response = await axios.post("http://localhost:3001/uploadfile", formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
       });
-      
-      console.log(result);
-
-      if (result.data.status === 200) {
-        alert("Upload Success");
-        getpdf();  
+  
+      if (response.status === 200) {
+        alert("Upload Successful!");
+        fetchPdfs(); 
+      } else {
+        alert("Failed to upload the file.");
       }
     } catch (error) {
-      console.error("Error uploading file:", error.message);
-      alert("Error Uploading");
+      console.error("Error uploading file:", error?.message || error); // Safe access with optional chaining
+      alert("An error occurred while uploading the file.");
     }
   };
 
   return (
     <Container className="mt-5">
       <h1>Send PDF</h1>
-      <Form onSubmit={submitPdf}>
+      <Form onSubmit={handlePdfUpload}>
         <Form.Group controlId="formPdfTitle">
           <Form.Label>PDF Title</Form.Label>
           <Form.Control 
@@ -65,7 +70,7 @@ function SendPdf() {
           <Form.Control 
             type="file" 
             accept="application/pdf" 
-            onChange={(e) => saveFile(e.target.files[0])}
+            onChange={(e) => setFile(e.target.files[0])}
             required 
           />
         </Form.Group>
@@ -74,6 +79,14 @@ function SendPdf() {
           Submit
         </Button>
       </Form>
+
+      <hr />
+      <h2>Uploaded PDFs</h2>
+      <ul>
+        {allPdf.map((pdf, index) => (
+          <li key={index}>{pdf.title}</li>
+        ))}
+      </ul>
     </Container>
   );
 }
