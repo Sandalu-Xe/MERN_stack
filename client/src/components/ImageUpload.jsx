@@ -7,7 +7,7 @@ function ImageUploader() {
   const [title, setTitle] = useState("");
 
   const onInputChange = (e) => {
-    setImage(e.target.files[0]); // Set the selected file to the state
+    setImage(e.target.files[0]); 
   };
 
   const submitImage = async (e) => {

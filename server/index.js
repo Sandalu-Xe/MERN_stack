@@ -8,6 +8,7 @@ const Signup=require('./models/Signupmodel.js')
 const Pdfmodel = require('./models/Pdfmodel.js');
 
 
+
 const multer  = require('multer')
 const app = express();
 const bodyParser = require("body-parser");
@@ -17,6 +18,7 @@ const fs = require("fs");
 app.use(cors());
 app.use(express.json()); 
 app.use(express.static("uploads")); 
+app.use('/imguploads', express.static(path.join(__dirname, 'imguploads')));
 
 // Middleware
 app.use(cors());
@@ -82,6 +84,42 @@ app.post("/login", async (req, res) => {
 
 // upload Images
 
+// Configure Multer for file uploads
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'imguploads/');
+  },
+  filename: (req, file, cb) => {
+    cb(null, `${Date.now()}-${file.originalname}`);
+  },
+});
+
+// GET route to fetch all photos
+app.get('/photos', async (req, res) => {
+  try {
+    const photos = await Photo.find();
+    res.status(200).json({ status: 200, data: photos });
+  } catch (error) {
+    console.error('Error fetching photos:', error.message);
+    res.status(500).json({ status: 500, message: 'Internal server error' });
+  }
+});
+
+
+app.post('/uploadphoto', upload.single('file'), async (req, res) => {
+  try {
+    const { title } = req.body;
+    const filePath = `http://localhost:${PORT}/uploads/${req.file.filename}`;
+
+    const newPhoto = new Photo({ title, url: filePath });
+    await newPhoto.save();
+
+    res.status(200).json({ status: 200, message: 'Photo uploaded successfully!' });
+  } catch (error) {
+    console.error('Error uploading photo:', error.message);
+    res.status(500).json({ status: 500, message: 'Internal server error' });
+  }
+});
 
 
 //Send PdfImage
@@ -89,7 +127,7 @@ app.post("/login", async (req, res) => {
 // Directory for uploads
 const pdfs = [];
 
-const storage = multer.diskStorage({
+const storages = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, "uploads/"); // Directory to save files
   },
@@ -99,7 +137,7 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({
-  storage,
+  storages,
   fileFilter: (req, file, cb) => {
     const fileTypes = /pdf/; // Accept only PDFs
     const extName = fileTypes.test(path.extname(file.originalname).toLowerCase());
