@@ -1,32 +1,17 @@
 const mongoose = require("mongoose");
 
-// Define the schema
-const PdfSchema = new mongoose.Schema(
-  {
-    title: {
-      type: String,
-      required: [true, "Please provide the title of the PDF"],
-    },
-    fileName: {
-      type: String,
-      required: [true, "Please provide the file name"],
-    },
-    filePath: {
-      type: String,
-      required: [true, "Please provide the file path"],
-    },
-    uploadedAt: {
-      type: Date,
-      default: Date.now, // Automatically sets the current timestamp
-    },
-  },
-  {
-    timestamps: true, // Automatically adds createdAt and updatedAt fields
+const pdfSchema = new mongoose.Schema({
+
+  title: { type: String, required: true }, 
+
+  filePath: { type: String, required: true }, 
+
+},
+  { 
+    timestamps: true, 
   }
 );
 
-// Create the model
-const Pdf = mongoose.model("Pdf", PdfSchema);
+const Pdf = mongoose.model("Pdf", pdfSchema);
 
-// Export the model
 module.exports = Pdf;

@@ -5,9 +5,8 @@ const cors = require('cors');
 const path = require('path');
 const User = require('./models/usermode.js');
 const Signup=require('./models/Signupmodel.js')
-const Pdfmodel = require('./models/Pdfmodel.js');
 const Photo = require('./models/Photomodel.js');
-
+const Pdf = require('./models/Pdfmodel.js');
 
 
 const multer  = require('multer')
@@ -18,8 +17,8 @@ const fs = require("fs");
 
 app.use(cors());
 app.use(express.json()); 
-app.use(express.static("uploads")); 
 app.use('/imguploads', express.static(path.join(__dirname, 'imguploads')));
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // Middleware
 app.use(cors());
@@ -93,7 +92,7 @@ const storage = multer.diskStorage({
   },
 });
 
-const uploads = multer({ storage });
+const imguploads = multer({ storage });
 
 // GET route to fetch all photos
 app.get('/photos', async (req, res) => {
@@ -107,7 +106,7 @@ app.get('/photos', async (req, res) => {
 });
 
 
-app.post('/uploadphoto', uploads.single('file'), async (req, res) => {
+app.post('/uploadphoto', imguploads.single('file'), async (req, res) => {
   try {
     const { title } = req.body;
     const filePath = `http://localhost:3001/uploads/${req.file.filename}`;
@@ -125,64 +124,43 @@ app.post('/uploadphoto', uploads.single('file'), async (req, res) => {
 
 //Send PdfImage
 
-// Directory for uploads
-const pdfs = [];
-
+// Multer configuration
 const storages = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, "uploads/"); // Directory to save files
+    cb(null, "./uploads");
   },
   filename: (req, file, cb) => {
-    cb(null, `${Date.now()}-${file.originalname}`); // Unique filename
+    cb(null, `${Date.now()}-${file.originalname}`);
   },
 });
 
-const upload = multer({
-  storages,
-  fileFilter: (req, file, cb) => {
-    const fileTypes = /pdf/; // Accept only PDFs
-    const extName = fileTypes.test(path.extname(file.originalname).toLowerCase());
-    const mimeType = fileTypes.test(file.mimetype);
+const pdfupload = multer({ storages });
 
-    if (extName && mimeType) {
-      cb(null, true);
-    } else {
-      cb(new Error("Only PDF files are allowed!"));
-    }
-  },
-});
 
-// Fetch all uploaded PDFs
-app.get("/sendfile", (req, res) => {
-  res.json({ data: pdfs });
-});
 
-// Upload a new PDF
-app.post("/uploadfile", upload.single("file"), (req, res) => {
+ // Routes
+ app.post("/uploadfile", pdfupload.single("file"), async (req, res) => {
   try {
     const { title } = req.body;
+    const filePath = `http://localhost:3001/uploads/${req.file.filename}`;
 
-    if (!req.file) {
-      return res.status(400).json({ message: "File is required" });
-    }
+    const newPdf = new Pdf({ title, filePath });
+    await newPdf.save();
 
-    if (!title) {
-      return res.status(400).json({ message: "Title is required" });
-    }
-
-    // Save metadata
-    pdfs.push({
-      title,
-      filePath: `http://localhost:${PORT}/${req.file.filename}`,
-    });
-
-    res.status(200).json({ message: "File uploaded successfully" });
+    res.status(200).json({ message: "File uploaded successfully", data: newPdf });
   } catch (error) {
-    console.error("Error uploading file:", error.message);
-    res.status(500).json({ message: "Internal Server Error" });
+    res.status(500).json({ message: "Error uploading file", error: error.message });
   }
 });
- 
+
+app.get("/sendfile", async (req, res) => {
+  try {
+    const pdfs = await Pdf.find();
+    res.status(200).json({ message: "Fetched PDFs successfully", data: pdfs });
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching PDFs", error: error.message });
+  }
+});
 
 app.get('/users', async (req, res) => {
   try {
