@@ -6,6 +6,7 @@ const path = require('path');
 const User = require('./models/usermode.js');
 const Signup=require('./models/Signupmodel.js')
 const Pdfmodel = require('./models/Pdfmodel.js');
+const Photo = require('./models/Photomodel.js');
 
 
 
@@ -26,8 +27,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Connect 
-
-
 
 app.get('/', async (req, res) => {
   res.send(" hello from node api sandalu thushan ");
@@ -94,6 +93,8 @@ const storage = multer.diskStorage({
   },
 });
 
+const uploads = multer({ storage });
+
 // GET route to fetch all photos
 app.get('/photos', async (req, res) => {
   try {
@@ -106,12 +107,12 @@ app.get('/photos', async (req, res) => {
 });
 
 
-app.post('/uploadphoto', upload.single('file'), async (req, res) => {
+app.post('/uploadphoto', uploads.single('file'), async (req, res) => {
   try {
     const { title } = req.body;
-    const filePath = `http://localhost:${PORT}/uploads/${req.file.filename}`;
+    const filePath = `http://localhost:3001/uploads/${req.file.filename}`;
 
-    const newPhoto = new Photo({ title, url: filePath });
+    const newPhoto = new Photo({ title, url: filePath ,image: filePath,});
     await newPhoto.save();
 
     res.status(200).json({ status: 200, message: 'Photo uploaded successfully!' });
@@ -211,15 +212,15 @@ app.get('/edituser/:id', async (req, res) => {
 
 
 app.delete('/user/:id', async (req, res) => {
-  const { id } = req.params; // Extract the ID from the request parameters
+  const { id } = req.params; 
   try {
-      const deleteduser = await User.findByIdAndDelete(id); // Find and delete the product by ID
+      const deleteduser = await User.findByIdAndDelete(id); 
       if (!deleteduser) {
-          return res.status(404).json({ message: 'User not found' }); // Return 404 if product is not found
+          return res.status(404).json({ message: 'User not found' }); 
       }
-      res.status(200).json({ message: 'User deleted successfully' }); // Return success message
+      res.status(200).json({ message: 'User deleted successfully' }); 
   } catch (error) {
-      res.status(500).json({ message: error.message }); // Handle any errors
+      res.status(500).json({ message: error.message }); 
   }
 });
 
