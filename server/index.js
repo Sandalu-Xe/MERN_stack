@@ -7,18 +7,20 @@ const User = require('./models/usermode.js');
 const Signup=require('./models/Signupmodel.js')
 const Photo = require('./models/Photomodel.js');
 const Pdf = require('./models/Pdfmodel.js');
+const fs = require("fs");
+
 
 
 const multer  = require('multer')
 const app = express();
 const bodyParser = require("body-parser");
-const fs = require("fs");
+
 
 
 app.use(cors());
 app.use(express.json()); 
 app.use('/imguploads', express.static(path.join(__dirname, 'imguploads')));
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+app.use('/pdfuploads', express.static(path.join(__dirname, 'pdfuploads')));
 
 // Middleware
 app.use(cors());
@@ -124,43 +126,59 @@ app.post('/uploadphoto', imguploads.single('file'), async (req, res) => {
 
 //Send PdfImage
 
+
+ // Routes
+
 // Multer configuration
 const storages = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, "./uploads");
+    cb(null, 'pdfuploads/');
   },
   filename: (req, file, cb) => {
     cb(null, `${Date.now()}-${file.originalname}`);
   },
 });
 
-const pdfupload = multer({ storages });
+const pdfs  = multer({ 
+  storages,
+  fileFilter: (req, file, cb) => {
+    if (file.mimetype === 'application/pdf') {
+      cb(null, true);
+    } else {
+      cb(new Error('Only PDF files are allowed!'), false);
+    }
+  },
+});
 
+// Routes
 
-
- // Routes
- app.post("/uploadfile", pdfupload.single("file"), async (req, res) => {
+// Upload a PDF
+app.post('/uploadpdf', pdfs.single('file'), async (req, res) => {
   try {
     const { title } = req.body;
-    const filePath = `http://localhost:3001/uploads/${req.file.filename}`;
+    const url = `http://localhost:3001/uploads/${req.file.filename}`;
 
-    const newPdf = new Pdf({ title, filePath });
+    const newPdf = new Pdf({ title, url });
     await newPdf.save();
 
-    res.status(200).json({ message: "File uploaded successfully", data: newPdf });
+    res.status(200).json({ status: 200, message: 'PDF uploaded successfully!', data: newPdf });
   } catch (error) {
-    res.status(500).json({ message: "Error uploading file", error: error.message });
+    console.error('Error uploading PDF:', error.message);
+    res.status(500).json({ status: 500, message: 'Error uploading PDF', error: error.message });
   }
 });
 
-app.get("/sendfile", async (req, res) => {
+// Get All PDFs
+app.get('/pdfs', async (req, res) => {
   try {
     const pdfs = await Pdf.find();
-    res.status(200).json({ message: "Fetched PDFs successfully", data: pdfs });
+    res.status(200).json({ status: 200, data: pdfs });
   } catch (error) {
-    res.status(500).json({ message: "Error fetching PDFs", error: error.message });
+    console.error('Error fetching PDFs:', error.message);
+    res.status(500).json({ status: 500, message: 'Error fetching PDFs', error: error.message });
   }
 });
+
 
 app.get('/users', async (req, res) => {
   try {

@@ -2,9 +2,9 @@ const mongoose = require("mongoose");
 
 const pdfSchema = new mongoose.Schema({
 
-  title: { type: String, required: true }, 
-
-  filePath: { type: String, required: true }, 
+  title: { type: String, required: true },
+  url: { type: String, required: true }, // URL to access the uploaded PDF
+  uploadedAt: { type: Date, default: Date.now }, 
 
 },
   { 
@@ -15,3 +15,9 @@ const pdfSchema = new mongoose.Schema({
 const Pdf = mongoose.model("Pdf", pdfSchema);
 
 module.exports = Pdf;
+
+
+// models/Pdf.js
+
+
+
