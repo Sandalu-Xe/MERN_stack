@@ -19,6 +19,7 @@ const bodyParser = require("body-parser");
 
 app.use(cors());
 app.use(express.json()); 
+
 app.use('/imguploads', express.static(path.join(__dirname, 'imguploads')));
 app.use('/pdfuploads', express.static(path.join(__dirname, 'pdfuploads')));
 
@@ -151,9 +152,10 @@ const pdfs  = multer({
 });
 
 // Routes
+const pdfuploads = multer({ storages });
 
 // Upload a PDF
-app.post('/uploadpdf', pdfs.single('file'), async (req, res) => {
+app.post('/uploadpdf', pdfuploads.single('file'), async (req, res) => {
   try {
     const { title } = req.body;
     const url = `http://localhost:3001/uploads/${req.file.filename}`;
@@ -204,8 +206,6 @@ app.get('/edituser/:id', async (req, res) => {
       res.status(500).json({ message: error.message }); // Handle any errors
   }
 });
-
-
 
 app.delete('/user/:id', async (req, res) => {
   const { id } = req.params; 
