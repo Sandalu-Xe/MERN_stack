@@ -19,7 +19,7 @@ const NaviBar = () => {
             <Nav.Link as={Link} to="/adduser"> <FaInfoCircle /> Add User</Nav.Link>
             <Nav.Link as={Link} to="/edituser"> <FaInfoCircle /> Edit User</Nav.Link>
             <Nav.Link as={Link} to="/conatctus"> <FaInfoCircle /> Contact Us</Nav.Link>
-            <Nav.Link as={Link} to="/uploadfile"> <FaInfoCircle /> Send Pdf</Nav.Link>
+            <Nav.Link as={Link} to="/uploadpdf"> <FaInfoCircle /> Send Pdf</Nav.Link>
             <Nav.Link as={Link} to="/uploadphoto"> <FaInfoCircle /> Upload Photo</Nav.Link>
             <Nav.Link as={Link} to="/sendmessege"> <FaInfoCircle /> Send Messege</Nav.Link>
             <Nav.Link as={Link} to="/addtocard"> <FaInfoCircle /> Add to Card</Nav.Link>

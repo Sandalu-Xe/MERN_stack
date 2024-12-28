@@ -163,9 +163,9 @@ app.get('/pdfs', async (req, res) => {
 app.post('/uploadpdf', pdfuploads.single('file'), async (req, res) => {
   try {
     const { title } = req.body;
-    const url = `http://localhost:3001/uploads/${req.file.filename}`;
+    const filePaths = `http://localhost:3001/uploads/${req.file.filename}`;
 
-    const newPdf = new Pdf({ title, url:url });
+    const newPdf = new Pdf({ title, url: filePaths, });
     await newPdf.save();
 
     res.status(200).json({ status: 200, message: 'PDF uploaded successfully!', data: newPdf });

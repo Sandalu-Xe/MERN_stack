@@ -31,7 +31,7 @@ function App() {
             <Route path="/adduser" element={<AddUser />} />
             <Route path="/edituser/:id" element={<EditUser />} />
             <Route path="/conatctus" element={<ContactUs />} />
-            <Route path="/uploadfile" element={<SendPdf />} />
+            <Route path="//uploadpdf" element={<SendPdf />} />
             <Route path="/uploadphoto" element={<PhotoUpload />} />
             <Route path="/sendmessege" element={<WhatsAppSender />} />
             <Route path="/addtocard" element={< AddToCart/>} />
