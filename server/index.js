@@ -9,8 +9,6 @@ const Photo = require('./models/Photomodel.js');
 const Pdf = require('./models/Pdfmodel.js');
 const fs = require("fs");
 
-
-
 const multer  = require('multer')
 const app = express();
 const bodyParser = require("body-parser");
@@ -160,7 +158,7 @@ app.post('/uploadpdf', pdfuploads.single('file'), async (req, res) => {
     const { title } = req.body;
     const url = `http://localhost:3001/uploads/${req.file.filename}`;
 
-    const newPdf = new Pdf({ title, url });
+    const newPdf = new Pdf({ title, url:url });
     await newPdf.save();
 
     res.status(200).json({ status: 200, message: 'PDF uploaded successfully!', data: newPdf });
