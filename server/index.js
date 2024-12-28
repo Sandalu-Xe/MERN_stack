@@ -177,7 +177,7 @@ app.get('/pdfs', async (req, res) => {
     console.error('Error fetching PDFs:', error.message);
     res.status(500).json({ status: 500, message: 'Error fetching PDFs', error: error.message });
   }
-});
+}); 
 
 
 app.get('/users', async (req, res) => {
