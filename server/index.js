@@ -129,17 +129,18 @@ app.post('/uploadphoto', imguploads.single('file'), async (req, res) => {
  // Routes
 
 // Multer configuration
-const storages = multer.diskStorage({
+// Configure multer for file uploads
+const pdfstorage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, 'pdfuploads/');
+    cb(null, 'pdfuploads/'); // Directory where PDFs will be saved
   },
   filename: (req, file, cb) => {
-    cb(null, `${Date.now()}-${file.originalname}`);
+    cb(null, `${Date.now()}-${file.originalname}`); // Add a timestamp to the filename
   },
 });
 
-const pdfuploads = multer({ storages });
-
+const pdfuploads = multer({ storage:pdfstorage });
+app.use(express.json());
 
 app.get('/pdfs', async (req, res) => {
   try {
@@ -174,7 +175,7 @@ app.post('/uploadpdf', pdfuploads.single('file'), async (req, res) => {
     res.status(500).json({ status: 500, message: 'Error uploading PDF', error: error.message });
   }
 });
-
+app.use('/pdfuploads', express.static('pdfuploads')); // Serve PDFs
 // Get All PDFs
 
 
