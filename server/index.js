@@ -138,19 +138,26 @@ const storages = multer.diskStorage({
   },
 });
 
-const pdfs  = multer({ 
-  storages,
-  fileFilter: (req, file, cb) => {
-    if (file.mimetype === 'application/pdf') {
-      cb(null, true);
-    } else {
-      cb(new Error('Only PDF files are allowed!'), false);
-    }
-  },
+const pdfuploads = multer({ storages });
+
+
+app.get('/pdfs', async (req, res) => {
+  try {
+    const photos = await Pdf.find();
+    res.status(200).json({ status: 200, data: photos });
+  } catch (error) {
+    console.error('Error fetching photos:', error.message);
+    res.status(500).json({ status: 500, message: 'Internal server error' });
+  }
 });
 
+
+
+
+
+
 // Routes
-const pdfuploads = multer({ storages });
+
 
 // Upload a PDF
 app.post('/uploadpdf', pdfuploads.single('file'), async (req, res) => {
@@ -169,15 +176,6 @@ app.post('/uploadpdf', pdfuploads.single('file'), async (req, res) => {
 });
 
 // Get All PDFs
-app.get('/pdfs', async (req, res) => {
-  try {
-    const pdfs = await Pdf.find();
-    res.status(200).json({ status: 200, data: pdfs });
-  } catch (error) {
-    console.error('Error fetching PDFs:', error.message);
-    res.status(500).json({ status: 500, message: 'Error fetching PDFs', error: error.message });
-  }
-}); 
 
 
 app.get('/users', async (req, res) => {
