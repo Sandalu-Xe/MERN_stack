@@ -13,8 +13,6 @@ const multer  = require('multer')
 const app = express();
 const bodyParser = require("body-parser");
 
-
-
 app.use(cors());
 app.use(express.json()); 
 
