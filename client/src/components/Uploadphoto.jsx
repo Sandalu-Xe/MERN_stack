@@ -15,7 +15,7 @@ function PhotoUpload() {
   const fetchPhotos = async () => {
     try {
       const result = await axios.get('http://localhost:3001/photos');
-      setAllPhotos(result.data.data);
+      setAllPhotos(result.data.data); // Ensure the API response structure matches this
     } catch (error) {
       console.error('Error fetching photos:', error.message);
     }
@@ -42,7 +42,7 @@ function PhotoUpload() {
         alert('Photo uploaded successfully!');
         setTitle('');
         setFile(null);
-        fetchPhotos(); // Refresh the photo list
+        fetchPhotos(); // Refresh the photo list after upload
       }
     } catch (error) {
       console.error('Error uploading photo:', error.message);
@@ -87,12 +87,16 @@ function PhotoUpload() {
       </Form>
 
       <h2 className="mt-5">Uploaded Photos</h2>
-      {allPhotos.length > 0 ? (
+      {allPhotos && allPhotos.length > 0 ? (
         <ListGroup>
           {allPhotos.map((photo) => (
             <ListGroup.Item key={photo.id}>
               <p>{photo.title}</p>
-              <img src={photo.url} alt={photo.title} style={{ maxWidth: '150px', maxHeight: '150px' }} />
+              <img
+                src={`http://localhost:3001/${photo.url}`} // Ensure the backend returns the correct relative path
+                alt={photo.title}
+                style={{ maxWidth: '150px', maxHeight: '150px' }}
+              />
             </ListGroup.Item>
           ))}
         </ListGroup>

@@ -42,7 +42,7 @@ function PdfUpload() {
         alert('PDF uploaded successfully!');
         setTitle('');
         setFile(null);
-        fetchPdfs(); // Refresh the PDF list
+        fetchPdfs(); 
       }
     } catch (error) {
       console.error('Error uploading PDF:', error.message);
