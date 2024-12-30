@@ -13,7 +13,7 @@ import PhotoUpload from './components/Uploadphoto';
 import WhatsAppSender from './components/WhatsappSender';
 import AddToCart from './components/AddtoCart';
 import ImageUploader from './components/ImageUpload';
-import MapContainer from './components/MapContainer';
+import Map from './components/MapContainer';
 
 
 function App() {
@@ -37,7 +37,7 @@ function App() {
             <Route path="/sendmessege" element={<WhatsAppSender />} />
             <Route path="/addtocard" element={< AddToCart/>} />
             <Route path="/imagesupload" element={<ImageUploader/>} />
-            <Route path="/googlemap" element={<MapContainer/>} />
+            <Route path="/googlemap" element={<Map/>} />
           </Routes>
         </Container>
       </div>
