@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const pdfSchema = new mongoose.Schema({
 
@@ -13,8 +13,9 @@ const pdfSchema = new mongoose.Schema({
 );
 
 const Pdf = mongoose.model("Pdf", pdfSchema);
+export default Pdf;
 
-module.exports = Pdf;
+
 
 
 // models/Pdf.js

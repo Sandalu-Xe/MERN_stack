@@ -1,12 +1,14 @@
 
-const express = require('express');
-const mongoose = require('mongoose');
-const cors = require('cors');
-const path = require('path');
-const User = require('./models/usermode.js');
-const Signup=require('./models/Signupmodel.js')
-const Photo = require('./models/Photomodel.js');
-const Pdf = require('./models/Pdfmodel.js');
+import express from 'express'; 
+import cors from 'cors';    
+import path from 'path';       
+import { connectDB } from '../server/DB/connectedDB.js'; 
+import User from './models/usermode.js';              
+import Signup from './models/Signupmodel.js';          
+import Photo from './models/Photomodel.js';           
+import Pdf from './models/Pdfmodel.js';              
+
+
 const fs = require("fs");
 
 const multer  = require('multer')
@@ -25,6 +27,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Connect 
+
+const PORT = process.env.PORT ||3001
 
 app.get('/', async (req, res) => {
   res.send(" hello from node api sandalu thushan ");
@@ -151,9 +155,6 @@ app.get('/pdfs', async (req, res) => {
 });
 
 
-// Routes
-
-
 // Upload a PDF
 app.post('/uploadpdf', pdfuploads.single('file'), async (req, res) => {
   try {
@@ -232,23 +233,13 @@ app.put('/edituser/:id', async (req, res) => {
 });
 
 
-mongoose.connect('mongodb+srv://user1:Thush12213@cluster0.9qwykfs.mongodb.net/MERN2?retryWrites=true&w=majority&appName=Cluster0', {
-  
-}).then(() => {
 
-      console.log("connected to the database sandalu 🚀🚀🚀🚀");
-
-       app.listen(3001,()=>{
-        console.log("server is running on port 3001");
-    
-    });
-      
-})
-.catch((err) => {
-    console.error("Database connection error:", err);
-});
 
 
 //create schema add new schema
-
+app.listen(PORT,()=>{
+  connectDB();
+  console.log("connected to the database sandalu 🚀🚀🚀🚀");
+  console.log("server is running on port :",PORT);
+});
 
