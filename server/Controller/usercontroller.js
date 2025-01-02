@@ -3,20 +3,19 @@ const User = require('../models/user.model.js');
 //add functions
 
 // Create a new product
-const createUser =  async (req, res) => {
-    try {
-      
-      //  const Product = await Product.create(req.body);
+const createUser =  async (req, res)  => {
+  try {
+    
+    const { name, email,password,address,age } = req.body;
+    const newuser = new User({ name, email, password,age, address });
+    const saveduser = await newuser.save();
 
-      const { name, quantity, price } = req.body;
-
-      const newuser = new User({ name, quantity, price });
-      const saveduser = await newuser.save();
-      res.status(200).json(saveduser);
-    } catch (error) {
-      res.status(500).json({ message: error.message });
-    }
-  };
+    res.status(200).json(saveduser);
+   
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+}
 
 
   const Findusers = async (req, res) => {

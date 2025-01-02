@@ -7,10 +7,12 @@ const connectDB = require('../server/DB/connectedDB.js');
 const dotenv = require('dotenv');
 // const User = require('./models/usermode.js');
 // const Signup=require('./models/Signupmodel.js')
+
 const Photo = require('./models/Photomodel.js');
 const Pdf = require('./models/Pdfmodel.js');   
 const User = require('./models/user.model.js');   
-authroutes=require('./Routes/auth.route.js');       
+const authroutes=require('./Routes/auth.route.js'); 
+const userscrud= require('./Routes/user.route.js');     
 
 
 const fs = require("fs");
@@ -27,6 +29,7 @@ app.use(express.json());
 app.use('/imguploads', express.static(path.join(__dirname, 'imguploads')));
 app.use('/pdfuploads', express.static(path.join(__dirname, 'pdfuploads')));
 
+
 // Middleware
 app.use(cors());
 app.use(bodyParser.json());
@@ -41,20 +44,9 @@ app.get('/', async (req, res) => {
 })
 
 app.use("/api/auth",authroutes); 
+app.use("/api/user",userscrud);
 
-app.post('/adduser', async (req, res) => {
-  try {
-    
-    const { name, email,password,address,age } = req.body;
-    const newuser = new User({ name, email, password,age, address });
-    const saveduser = await newuser.save();
-
-    res.status(200).json(saveduser);
-   
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-});
+app.post('/adduser',);
 
 app.post('/signup', async (req, res) => {
   try {
