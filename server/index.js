@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const path = require('path');
 const connectDB = require('../server/DB/connectedDB.js');
+const dotenv = require('dotenv');
 // const User = require('./models/usermode.js');
 // const Signup=require('./models/Signupmodel.js')
 const Photo = require('./models/Photomodel.js');
@@ -12,6 +13,7 @@ const Pdf = require('./models/Pdfmodel.js');
 
 const fs = require("fs");
 
+dotenv.config();
 const multer  = require('multer')
 const app = express();
 const bodyParser = require("body-parser");
@@ -235,18 +237,24 @@ app.put('/edituser/:id', async (req, res) => {
 
 
 
-
-
 //create schema add new schema
-mongoose.connect('mongodb+srv://user1:Thush12213@cluster0.9qwykfs.mongodb.net/MERN2?retryWrites=true&w=majority&appName=Cluster0')
-.then(()=>{
-    console.log("connected to the database sandalu 🚀🚀");
+// mongoose.connect('mongodb+srv://user1:Thush12213@cluster0.9qwykfs.mongodb.net/MERN2?retryWrites=true&w=majority&appName=Cluster0')
+// .then(()=>{
+//     console.log("connected to the database sandalu 🚀🚀");
 
-    app.listen(3333,()=>{
-        console.log("server is running on port 3333");
+//     app.listen(3333,()=>{
+//         console.log("server is running on port 3333");
     
-    });
-})
-.catch((err)=>{
-    console.log("connection is faild",err);
+//     });
+// })
+
+
+// .catch((err)=>{
+//     console.log("connection is faild",err);
+// });
+app.listen(PORT,()=>{
+  connectDB();
+  console.log("server is running on port :",PORT);
 });
+
+
