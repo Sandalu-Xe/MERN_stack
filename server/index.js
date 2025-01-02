@@ -21,7 +21,7 @@ dotenv.config();
 const multer  = require('multer')
 const app = express();
 const bodyParser = require("body-parser");
-const { User } = require('lucide-react');
+
 
 app.use(cors());
 app.use(express.json()); 
@@ -46,7 +46,6 @@ app.get('/', async (req, res) => {
 app.use("/api/auth",authroutes); 
 app.use("/user",userscrud);
 
-app.post('/adduser',);
 
 app.post('/signup', async (req, res) => {
   try {
@@ -156,17 +155,7 @@ app.use('/pdfuploads', express.static('pdfuploads')); // Serve PDFs
 // Get All PDFs
 
 
-app.get('/users', async (req, res) => {
-  try {
-      // Retrieve all products from the database
-      const users = await User.find({}); // Find all products
 
-      // Respond with the list of products
-      res.status(200).json(users);
-  } catch (error) {
-      res.status(500).json({ message: error.message });
-  }
-})
 
 app.get('/edituser/:id', async (req, res) => {
   const { id } = req.params; // Get the ID from the request parameters

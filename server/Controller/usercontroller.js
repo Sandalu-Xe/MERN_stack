@@ -33,7 +33,8 @@ const createUser =  async (req, res)  => {
 
   // Update a users
 
-const getpdfs=  async (req, res) => {
+const getpdfs =  async (req, res) => {
+  
   try {
     const photos = await Pdf.find();
     res.status(200).json({ status: 200, data: photos });
@@ -43,8 +44,20 @@ const getpdfs=  async (req, res) => {
   }
 }
 
+const findusers = async(req, res)  => {
+  try {
+      // Retrieve all products from the database
+      const users = await User.find({}); // Find all products
+
+      // Respond with the list of products
+      res.status(200).json(users);
+  } catch (error) {
+      res.status(500).json({ message: error.message });
+  }
+}
+
 
   module.exports= {
-    createUser,getphotos,getpdfs
+    createUser,getphotos,getpdfs,findusers
 
   }

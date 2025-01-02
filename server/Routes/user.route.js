@@ -3,13 +3,16 @@ const router = express.Router();
 
 
 
-const{createUser,getphotos,getpdfs}=require('../Controller/usercontroller.js');
+const{createUser,getphotos,getpdfs,findusers}=require('../Controller/usercontroller.js');
+const { route } = require('./auth.route.js');
 
-router.post('/register', createUser);
+router.post('/adduser', createUser);
 
-router.app.get('/photos',getphotos);
+router.get('/photos',getphotos);
 
-app.get('/pdfs', getpdfs);
+router.get('/pdfs', getpdfs);
+
+router.get('/users', findusers)
 
 
 
