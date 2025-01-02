@@ -1,12 +1,13 @@
 
-import express from 'express'; 
-import cors from 'cors';    
-import path from 'path';       
-import { connectDB } from '../server/DB/connectedDB.js'; 
-import User from './models/usermode.js';              
-import Signup from './models/Signupmodel.js';          
-import Photo from './models/Photomodel.js';           
-import Pdf from './models/Pdfmodel.js';              
+const express = require('express');
+const mongoose = require('mongoose');
+const cors = require('cors');
+const path = require('path');
+const connectDB = require('../server/DB/connectedDB.js');
+// const User = require('./models/usermode.js');
+// const Signup=require('./models/Signupmodel.js')
+const Photo = require('./models/Photomodel.js');
+const Pdf = require('./models/Pdfmodel.js');             
 
 
 const fs = require("fs");
@@ -212,7 +213,7 @@ app.delete('/user/:id', async (req, res) => {
   }
 });
 
- 
+
 
 app.put('/edituser/:id', async (req, res) => {
   try {
@@ -237,9 +238,15 @@ app.put('/edituser/:id', async (req, res) => {
 
 
 //create schema add new schema
-app.listen(PORT,()=>{
-  connectDB();
-  console.log("connected to the database sandalu 🚀🚀🚀🚀");
-  console.log("server is running on port :",PORT);
-});
+mongoose.connect('mongodb+srv://user1:Thush12213@cluster0.9qwykfs.mongodb.net/MERN2?retryWrites=true&w=majority&appName=Cluster0')
+.then(()=>{
+    console.log("connected to the database sandalu 🚀🚀");
 
+    app.listen(3333,()=>{
+        console.log("server is running on port 3333");
+    
+    });
+})
+.catch((err)=>{
+    console.log("connection is faild",err);
+});
