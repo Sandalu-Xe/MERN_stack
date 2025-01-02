@@ -1,4 +1,4 @@
-const User = require('../models/usermode.js');
+const User = require('../models/user.model.js');
 
 //add functions
 

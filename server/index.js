@@ -8,7 +8,8 @@ const dotenv = require('dotenv');
 // const User = require('./models/usermode.js');
 // const Signup=require('./models/Signupmodel.js')
 const Photo = require('./models/Photomodel.js');
-const Pdf = require('./models/Pdfmodel.js');             
+const Pdf = require('./models/Pdfmodel.js');   
+const User = require('./models/user.model.js');          
 
 
 const fs = require("fs");
@@ -17,6 +18,7 @@ dotenv.config();
 const multer  = require('multer')
 const app = express();
 const bodyParser = require("body-parser");
+const { User } = require('lucide-react');
 
 app.use(cors());
 app.use(express.json()); 
