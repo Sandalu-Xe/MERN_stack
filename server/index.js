@@ -44,7 +44,7 @@ app.get('/', async (req, res) => {
 })
 
 app.use("/api/auth",authroutes); 
-app.use("/api/user",userscrud);
+app.use("/user",userscrud);
 
 app.post('/adduser',);
 
@@ -98,15 +98,7 @@ const storage = multer.diskStorage({
 const imguploads = multer({ storage });
 
 // GET route to fetch all photos
-app.get('/photos', async (req, res) => {
-  try {
-    const photos = await Photo.find();
-    res.status(200).json({ status: 200, data: photos });
-  } catch (error) {
-    console.error('Error fetching photos:', error.message);
-    res.status(500).json({ status: 500, message: 'Internal server error' });
-  }
-});
+
 
 
 app.post('/uploadphoto', imguploads.single('file'), async (req, res) => {
@@ -144,15 +136,7 @@ const pdfstorage = multer.diskStorage({
 const pdfuploads = multer({ storage:pdfstorage });
 app.use(express.json());
 
-app.get('/pdfs', async (req, res) => {
-  try {
-    const photos = await Pdf.find();
-    res.status(200).json({ status: 200, data: photos });
-  } catch (error) {
-    console.error('Error fetching photos:', error.message);
-    res.status(500).json({ status: 500, message: 'Internal server error' });
-  }
-});
+app.get('/pdfs', );
 
 
 // Upload a PDF
