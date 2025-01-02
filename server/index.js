@@ -9,7 +9,8 @@ const dotenv = require('dotenv');
 // const Signup=require('./models/Signupmodel.js')
 const Photo = require('./models/Photomodel.js');
 const Pdf = require('./models/Pdfmodel.js');   
-const User = require('./models/user.model.js');          
+const User = require('./models/user.model.js');   
+authroutes=require('./Routes/auth.route.js');       
 
 
 const fs = require("fs");
@@ -38,6 +39,8 @@ const PORT = process.env.PORT ||3001
 app.get('/', async (req, res) => {
   res.send(" hello from node api sandalu thushan ");
 })
+
+app.use("/api/auth",authroutes); 
 
 app.post('/adduser', async (req, res) => {
   try {
