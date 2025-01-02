@@ -136,8 +136,6 @@ const pdfstorage = multer.diskStorage({
 const pdfuploads = multer({ storage:pdfstorage });
 app.use(express.json());
 
-app.get('/pdfs', );
-
 
 // Upload a PDF
 app.post('/uploadpdf', pdfuploads.single('file'), async (req, res) => {
