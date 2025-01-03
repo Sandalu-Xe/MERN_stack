@@ -155,22 +155,7 @@ app.use('/pdfuploads', express.static('pdfuploads')); // Serve PDFs
 // Get All PDFs
 
 
-
-
-app.get('/edituser/:id', );
-
-app.delete('/user/:id', async (req, res) => {
-  const { id } = req.params; 
-  try {
-      const deleteduser = await User.findByIdAndDelete(id); 
-      if (!deleteduser) {
-          return res.status(404).json({ message: 'User not found' }); 
-      }
-      res.status(200).json({ message: 'User deleted successfully' }); 
-  } catch (error) {
-      res.status(500).json({ message: error.message }); 
-  }
-});
+app.delete('/user/:id', );
 
 
 
