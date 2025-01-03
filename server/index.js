@@ -155,7 +155,6 @@ app.use('/pdfuploads', express.static('pdfuploads')); // Serve PDFs
 // Get All PDFs
 
 
-app.delete('/user/:id', );
 
 
 
