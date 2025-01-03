@@ -15,8 +15,6 @@ const{
    }=require('../Controller/usercontroller.js');
 
 
-const { route } = require('./auth.route.js');
-
 router.post('/adduser', createUser);
 
 router.get('/photos',getphotos);
