@@ -85,7 +85,33 @@ const deleteuserbyid = async (req, res) => {
   }
 }
 
+
+const edituserbyid = async (req, res) => {
+  try {
+      const { id } = req.params;
+
+      const user = await User.findByIdAndUpdate(id, req.body);
+
+      if (!user) {
+          return res.status(404).json({ message: "user not found" });
+      }
+
+      const updateduser = await User.findById(id);
+      res.status(200).json(updateduser);
+
+  } catch (error) {
+      res.status(500).json({ message: error.message }); // Handle any errors
+  }
+}
+
+
   module.exports= {
-    createUser,getphotos,getpdfs,findusers,finduserbyid,deleteuserbyid
+    createUser,
+    getphotos,
+    getpdfs,
+    findusers,
+    finduserbyid,
+    deleteuserbyid,
+    edituserbyid
 
   }

@@ -10,6 +10,7 @@ const{
     findusers,
     finduserbyid,
     deleteuserbyid,
+    edituserbyid,
 
    }=require('../Controller/usercontroller.js');
 
@@ -27,6 +28,8 @@ router.get('/users', findusers)
 router.get('/user/:id', finduserbyid)
 
 router.delete('/user/:id', deleteuserbyid)
+
+router.put('/edituser/:id', edituserbyid)
 
 
 
