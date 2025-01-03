@@ -32,6 +32,5 @@ router.delete('/user/:id', deleteuserbyid)
 router.put('/edituser/:id', edituserbyid)
 
 
-
 module.exports = router;   
 
