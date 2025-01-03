@@ -1,4 +1,4 @@
-const User = require('../models/user.model.js');
+
 const Photo = require('../models/Photomodel.js');
 
 //add functions
