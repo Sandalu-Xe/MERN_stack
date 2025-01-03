@@ -1,12 +1,11 @@
 
 const bcryptjs = require("bcryptjs");
 const User = require('../models/user.model.js');
-import { generateTokenAndSetCookie } from "../utils/generateTokenAndSetCookie.js";
+const generateTokenAndSetCookie =require ("../utils/generateTokenAndSetCookie.js");
 
 
 
-
-export const signup = async (req, res) => {
+ const signup = async (req, res) => {
 
 	const { email, password, name } = req.body;
 
@@ -38,7 +37,7 @@ export const signup = async (req, res) => {
 		// jwt
 		generateTokenAndSetCookie(res, user._id);
 		
-		await sendVerificationEmail(user.email, verificationToken);
+
 
 
 
@@ -54,3 +53,5 @@ export const signup = async (req, res) => {
 		res.status(400).json({ success: false, message: error.message });
 	}
 };
+
+module.exports = {signup}
