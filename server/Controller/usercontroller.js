@@ -56,8 +56,23 @@ const findusers = async(req, res)  => {
   }
 }
 
+const finduserbyid =  async (req, res) =>
+  {
+    const { id } = req.params; // Get the ID from the request parameters
+    try {
+        const user = await User.findById(id); // Find the product by ID
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' }); // Return 404 if not found
+        }
+        res.status(200).json(user); // Return the found product
+    } catch (error) {
+        res.status(500).json({ message: error.message }); // Handle any errors
+    }
+  
+}
+
 
   module.exports= {
-    createUser,getphotos,getpdfs,findusers
+    createUser,getphotos,getpdfs,findusers,finduserbyid
 
   }
