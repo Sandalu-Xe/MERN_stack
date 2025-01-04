@@ -3,17 +3,23 @@
 // Looking to send emails in production? Check out our Email API/SMTP product!
 const { MailtrapClient } = require("mailtrap");
 
-const TOKEN = "f0995f2dd2d627b57e960b8601ff32c1";
+const dotenv =require("dotenv") ;
+dotenv.config()
+
+const TOKEN =process.env.MAILTRAP_TOKEN;
 const ENDPOINT= process.env.MAILTRAP_ENDPOINT;
 
-const client = new MailtrapClient({
+const mailtrapClient = new MailtrapClient({
   token: TOKEN,
+  endpoint: ENDPOINT,
   testInboxId: 3366677,
+  accountId: 2166751,
+
 });
 
 const sender = {
   email: "hello@example.com",
-  name: "Mailtrap Test",
+  name: "Mailtrap company",
 };
 const recipients = [
   {
@@ -21,7 +27,7 @@ const recipients = [
   }
 ];
 
-client.testing
+mailtrapClient.testing
   .send({
     from: sender,
     to: recipients,
@@ -30,3 +36,8 @@ client.testing
     category: "Integration Test",
   })
   .then(console.log, console.error);
+
+  module.exports={
+    mailtrapClient,
+    sender,
+  }

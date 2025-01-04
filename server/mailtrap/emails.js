@@ -94,7 +94,10 @@ const sendWelcomeEmail = async (email, name) => {
 };
 
 module.exports = {
-	sendResetSuccessEmail, 
+	
+	sendWelcomeEmail,
 	sendResetSuccessEmail,
-	sendPasswordResetEmail
+	sendPasswordResetEmail,
+	sendVerificationEmail,
+
 }
