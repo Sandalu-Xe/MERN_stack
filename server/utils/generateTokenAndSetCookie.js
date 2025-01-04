@@ -15,7 +15,10 @@ const jwt = require('jsonwebtoken');
 	return token;
 };
 
+
+// verifyToken.js
 module.exports = {
-	
+
 	generateTokenAndSetCookie
 }
+

@@ -1,9 +1,10 @@
 const{
+	
 	VERIFICATION_EMAIL_TEMPLATE,
     PASSWORD_RESET_REQUEST_TEMPLATE,
     PASSWORD_RESET_SUCCESS_TEMPLATE
 
-} = require("../mailtrap/emailTemplates.js");
+} = require('../mailtrap/emailTemplates.js')
 
 const{ mailtrapClient, sender } = require("../mailtrap/mailtrapconfig.js");
 

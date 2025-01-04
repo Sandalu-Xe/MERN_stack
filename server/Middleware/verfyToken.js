@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 
 
-export const verifyToken = (req, res, next) => {
+ const verifyToken = (req, res, next) => {
 	const token = req.cookies.token;
 	if (!token) return res.status(401).json({ success: false, message: "Unauthorized - no token provided" });
 	try {
@@ -16,3 +16,8 @@ export const verifyToken = (req, res, next) => {
 		return res.status(500).json({ success: false, message: "Server error" });
 	}
 };
+
+module.exports=
+{
+    verifyToken
+}
