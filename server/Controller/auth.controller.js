@@ -3,7 +3,13 @@ const bcryptjs = require("bcryptjs");
 const User = require('../models/user.model.js');
 const generateTokenAndSetCookie =require ("../utils/generateTokenAndSetCookie.js");
 
+import {
 
+	sendVerificationEmail,
+	
+	
+
+} from "../mailtrap/emails.js";
 
  const signup = async (req, res) => {
 
@@ -38,7 +44,7 @@ const generateTokenAndSetCookie =require ("../utils/generateTokenAndSetCookie.js
 		generateTokenAndSetCookie(res, user._id);
 		
 
-
+		await sendVerificationEmail(user.email, verificationToken);
 
 
 		res.status(201).json({
