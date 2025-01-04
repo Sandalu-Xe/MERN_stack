@@ -1,49 +1,32 @@
 
-const MailtrapClient = require("mailtrap");
 
- const dotenv = require("dotenv");
+// Looking to send emails in production? Check out our Email API/SMTP product!
+const { MailtrapClient } = require("mailtrap");
 
-
-dotenv.config()
-
-
+const TOKEN = "f0995f2dd2d627b57e960b8601ff32c1";
 const ENDPOINT= process.env.MAILTRAP_ENDPOINT;
 
-// const ENDPOINT = "https://send.api.mailtrap.io/";
-
- const mailtrapClient = new MailtrapClient({
-  token: process.env.MAILTRAP_TOKEN,
-//   endpoint: ENDPOINT,
-
+const client = new MailtrapClient({
+  token: TOKEN,
+  testInboxId: 3366677,
 });
 
-
-
- const sender = {
-  email: "hello@demomailtrap.com",
-  name: "sandalu",
+const sender = {
+  email: "hello@example.com",
+  name: "Mailtrap Test",
 };
-
-
-
-// it 
 const recipients = [
   {
     email: "sandaluthushan20@gmail.com",
   }
 ];
 
-
-module.exports ={sender,mailtrapClient }
-
-
-
-// Client
-//   .send({
-//     from: sender,
-//     to: recipients,
-//     subject: "You are awesome!",
-//     html: "Congrats for sending test email with Mailtrap!",
-//     category: "Integration Test",
-//   })
-//   .then(console.log, console.error);
+client.testing
+  .send({
+    from: sender,
+    to: recipients,
+    subject: "You are awesome!",
+    text: "Congrats for sending test email with Mailtrap!",
+    category: "Integration Test",
+  })
+  .then(console.log, console.error);
