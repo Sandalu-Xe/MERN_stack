@@ -1,8 +1,8 @@
-
+const crypto = require("crypto");
 const bcryptjs = require("bcryptjs");
 const User = require('../models/user.model.js');
 const generateTokenAndSetCookie =require ("../utils/generateTokenAndSetCookie.js");
-const 	sendVerificationEmail = require( "../mailtrap/emails.js");
+const sendVerificationEmail = require( "../mailtrap/emails.js");
 
 
  const signup = async (req, res) => {
