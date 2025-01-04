@@ -27,17 +27,10 @@ const recipients = [
   }
 ];
 
-mailtrapClient.testing
-  .send({
-    from: sender,
-    to: recipients,
-    subject: "You are awesome!",
-    text: "Congrats for sending test email with Mailtrap!",
-    category: "Integration Test",
-  })
-  .then(console.log, console.error);
+
 
   module.exports={
     mailtrapClient,
     sender,
+    recipients,
   }

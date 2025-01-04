@@ -5,7 +5,10 @@ const {
    
 } =require('../Controller/auth.controller.js');
 
+const {verfiytoken} = require('../Middleware/verfyToken.js')
+
 
 router.post("/signup",signup);
 
+ 
 module.exports = router;  
