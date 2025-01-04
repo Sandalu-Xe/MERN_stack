@@ -1,7 +1,8 @@
-import {MailtrapClient} from "mailtrap";
 
+const MailtrapClient = require("mailtrap");
 
-import dotenv from "dotenv";
+ const dotenv = require("dotenv");
+
 
 dotenv.config()
 
@@ -10,7 +11,7 @@ const ENDPOINT= process.env.MAILTRAP_ENDPOINT;
 
 // const ENDPOINT = "https://send.api.mailtrap.io/";
 
-export const mailtrapClient = new MailtrapClient({
+ const mailtrapClient = new MailtrapClient({
   token: process.env.MAILTRAP_TOKEN,
 //   endpoint: ENDPOINT,
 
@@ -18,7 +19,7 @@ export const mailtrapClient = new MailtrapClient({
 
 
 
-export const sender = {
+ const sender = {
   email: "hello@demomailtrap.com",
   name: "sandalu",
 };
@@ -32,6 +33,8 @@ const recipients = [
   }
 ];
 
+
+module.exports ={sender,mailtrapClient }
 
 
 
