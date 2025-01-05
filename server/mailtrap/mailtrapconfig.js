@@ -2,7 +2,7 @@ const {MailtrapClient} =require("mailtrap");
 
 
 const dotenv = require("dotenv");
-;
+
 
 dotenv.config()
 
