@@ -1,27 +1,31 @@
+const {MailtrapClient} =require("mailtrap");
 
 
-// Looking to send emails in production? Check out our Email API/SMTP product!
-const { MailtrapClient } = require("mailtrap");
+import dotenv from "dotenv";
+import { model } from "mongoose";
 
-const dotenv =require("dotenv") ;
 dotenv.config()
 
 
 const ENDPOINT= process.env.MAILTRAP_ENDPOINT;
 
-const mailtrapClient = new MailtrapClient({
+// const ENDPOINT = "https://send.api.mailtrap.io/";
+
+export const mailtrapClient = new MailtrapClient({
   token: process.env.MAILTRAP_TOKEN,
-  // endpoint: ENDPOINT,
-  // testInboxId: 3366677,
-  // accountId: 2166751,
+//   endpoint: ENDPOINT,
 
 });
 
-const sender = {
-  email: "hello@example.com",
+
+export const sender = {
+  email: "hello@demomailtrap.com",
   name: "sandalu",
 };
 
+
+
+// it 
 const recipients = [
   {
     email: "sandaluthushan20@gmail.com",
@@ -30,9 +34,16 @@ const recipients = [
 
 
 
-  module.exports={
-    
-    mailtrapClient,
-    sender,
-    
-  }
+
+// Client
+//   .send({
+//     from: sender,
+//     to: recipients,
+//     subject: "You are awesome!",
+//     html: "Congrats for sending test email with Mailtrap!",
+//     category: "Integration Test",
+//   })
+//   .then(console.log, console.error);
+
+
+model
