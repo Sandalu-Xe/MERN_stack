@@ -1,18 +1,16 @@
-const{
-	
+import {
 	VERIFICATION_EMAIL_TEMPLATE,
     PASSWORD_RESET_REQUEST_TEMPLATE,
     PASSWORD_RESET_SUCCESS_TEMPLATE
 
-} = require('../mailtrap/emailTemplates.js')
+} from "./emailTemplates.js";
 
-const{ mailtrapClient, sender } = require("../mailtrap/mailtrapconfig.js");
+import { mailtrapClient, sender } from "./mailtrap.config.js";
 
- const sendVerificationEmail = async (email, verificationToken) => {
+export const sendVerificationEmail = async (email, verificationToken) => {
 	const recipient = [{ email }];
 
 	try {
-        
 		const response = await mailtrapClient.send({
 			from: sender,
 			to: recipient,
@@ -29,14 +27,14 @@ const{ mailtrapClient, sender } = require("../mailtrap/mailtrapconfig.js");
 	}
 };
 
-const sendWelcomeEmail = async (email, name) => {
+export const sendWelcomeEmail = async (email, name) => {
 	const recipient = [{ email }];
 
 	try {
 		const response = await mailtrapClient.send({
 			from: sender,
 			to: recipient,
-			template_uuid: "d062470b-5ff0-49d0-9f9b-1e8345df7a9a",
+			template_uuid: "c6457c99-460c-4276-9e80-0cde82464505",
 			template_variables: {
 				company_info_name: "Test_Company_info_name",
 				name: name,
@@ -51,7 +49,7 @@ const sendWelcomeEmail = async (email, name) => {
 	}
 };
 
- const sendPasswordResetEmail = async (email, resetURL) => {
+export const sendPasswordResetEmail = async (email, resetURL) => {
 	const recipient = [{ email }];
 
 	try {
@@ -69,7 +67,7 @@ const sendWelcomeEmail = async (email, name) => {
 	}
 };
 
- const sendResetSuccessEmail = async (email) => {
+export const sendResetSuccessEmail = async (email) => {
 	const recipient = [{ email }];
 
 	try {
@@ -88,12 +86,3 @@ const sendWelcomeEmail = async (email, name) => {
 		throw new Error(`Error sending password reset success email: ${error}`);
 	}
 };
-
-module.exports = {
-	
-	sendWelcomeEmail,
-	sendResetSuccessEmail,
-	sendPasswordResetEmail,
-	sendVerificationEmail,
-
-}
