@@ -2,8 +2,7 @@ const {MailtrapClient} =require("mailtrap");
 
 
 const dotenv = require("dotenv");
-
-const { model } = require( "mongoose");
+;
 
 dotenv.config()
 
