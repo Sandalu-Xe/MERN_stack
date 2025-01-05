@@ -90,6 +90,7 @@ const {sendVerificationEmail } = require( '../mailtrap/emails.js');
 
 
 module.exports = {
+	
 	signup,
 	login,
 }

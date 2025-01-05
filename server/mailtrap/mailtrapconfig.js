@@ -31,6 +31,7 @@ const recipients = [
 
 
   module.exports={
+    
     mailtrapClient,
     sender,
     
