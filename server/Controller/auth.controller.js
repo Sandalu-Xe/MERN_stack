@@ -3,7 +3,7 @@ const bcryptjs = require("bcryptjs");
 const User = require('../models/user.model.js');
 const {generateTokenAndSetCookie} =require ("../utils/generateTokenAndSetCookie.js");
 
-const {sendVerificationEmail }= require( '../mailtrap/emails.js');
+const {sendVerificationEmail } = require( '../mailtrap/emails.js');
 
 
  const signup = async (req, res) => {
@@ -13,7 +13,7 @@ const {sendVerificationEmail }= require( '../mailtrap/emails.js');
 	try { 
 		if (!email || !password || !name) {
 			throw new Error("All fields are required");
-		}
+		} 
 
 		const userAlreadyExists = await User.findOne({ email });
 		console.log("userAlreadyExists", userAlreadyExists);
