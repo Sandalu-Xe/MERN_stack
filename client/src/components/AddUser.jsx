@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useSnackbar } from 'notistack';
 
-
 function AddUser() {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
@@ -23,21 +22,21 @@ function AddUser() {
             email,
             password, 
             address, 
-            age };
+            age 
+        };
 
         setLoading(true);
         axios
           .post('http://localhost:3001/adduser', data)
           .then(() => {
             setLoading(false);
-            enqueueSnackbar('user regidtrtion sucessfully', { variant: 'success' });
+            enqueueSnackbar('User registration successful', { variant: 'success' });
             navigate('/users');
           })
           .catch((error) => {
             setLoading(false);
-
-            enqueueSnackbar('Error', { variant: 'error' });
-            console.log(error);
+            enqueueSnackbar(error.response?.data?.message || 'Error occurred', { variant: 'error' });
+            console.error(error);
           });
       };
 
@@ -52,6 +51,7 @@ function AddUser() {
                         placeholder="Enter name"
                         value={name}
                         onChange={(e) => setName(e.target.value)}
+                        required
                     />
                 </Form.Group>
 
@@ -62,6 +62,7 @@ function AddUser() {
                         placeholder="Enter email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
+                        required
                     />
                 </Form.Group>
 
@@ -72,6 +73,7 @@ function AddUser() {
                         placeholder="Enter address"
                         value={address}
                         onChange={(e) => setAddress(e.target.value)}
+                        required
                     />
                 </Form.Group>
 
@@ -82,6 +84,7 @@ function AddUser() {
                         placeholder="Enter age"
                         value={age}
                         onChange={(e) => setAge(e.target.value)}
+                        required
                     />
                 </Form.Group>
 
@@ -92,6 +95,7 @@ function AddUser() {
                         placeholder="Enter password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
+                        required
                     />
                 </Form.Group>
 
