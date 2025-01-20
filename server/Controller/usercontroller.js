@@ -9,7 +9,7 @@ const User = require('../models/user.model.js');
 const createUser =  async (req, res)  => {
   try {
     
-    const { name, email,password,address,age } = req.body;
+    const { name, email,address,age } = req.body;
     const newuser = new User({ name, email, password,age, address });
     const saveduser = await newuser.save();
 
