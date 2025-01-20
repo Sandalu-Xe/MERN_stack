@@ -11,7 +11,7 @@ const dotenv = require('dotenv');
 const Photo = require('./models/Photomodel.js');
 const Pdf = require('./models/Pdfmodel.js');   
 const User = require('./models/user.model.js');   
-const authroutes=require('./Routes/auth.route.js'); 
+ 
 const userscrud= require('./Routes/user.route.js');     
 
 
@@ -43,7 +43,6 @@ app.get('/', async (req, res) => {
   res.send(" hello from node api sandalu thushan ");
 })
 
-app.use("/api/auth",authroutes); 
 app.use("/user",userscrud);
 
 
