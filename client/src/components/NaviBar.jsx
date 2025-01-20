@@ -14,7 +14,6 @@ const NaviBar = () => {
           <Nav className="me-auto">
             <Nav.Link as={Link} to="/"><FaHome /> Home</Nav.Link>
             <Nav.Link as={Link} to="/login"> <FaSignInAlt /> Login</Nav.Link>
-            <Nav.Link as={Link} to="/signup"> <FaUserPlus /> Sign Up</Nav.Link>
             <Nav.Link as={Link} to="/users"> <FaInfoCircle /> Users</Nav.Link>
             <Nav.Link as={Link} to="/adduser"> <FaInfoCircle /> Add User</Nav.Link>
             <Nav.Link as={Link} to="/edituser"> <FaInfoCircle /> Edit User</Nav.Link>
