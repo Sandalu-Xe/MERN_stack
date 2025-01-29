@@ -3,10 +3,16 @@ const Photo = require('../models/Photomodel.js');
 const User = require('../models/user.model.js');
 
 
-//add functions
-
-
-
+const createUser = async (req, res) => {
+  try {
+    const { name, email, address, age } = req.body;
+    const newUser = new User({ name, email, address, age });
+    const savedUser = await newUser.save();
+    res.status(200).json(savedUser);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
 
   const getphotos = async (req, res) => {
     async (req, res) => {
