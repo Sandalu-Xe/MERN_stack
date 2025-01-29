@@ -2,7 +2,7 @@
 import React from 'react';
 import { Navbar, Nav, Container } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import { FaHome, FaSignInAlt, FaUserPlus, FaInfoCircle } from 'react-icons/fa';
+import { FaHome, FaSignInAlt, FaInfoCircle } from 'react-icons/fa';
 
 const NaviBar = () => {
   return (
