@@ -43,7 +43,7 @@ app.get('/', async (req, res) => {
   res.send(" hello from node api sandalu thushan ");
 })
 
-app.use("/user",userscrud);
+app.use("/",userscrud);
 
 
 app.post('/signup', async (req, res) => {

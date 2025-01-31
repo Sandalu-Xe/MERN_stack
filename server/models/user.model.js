@@ -21,10 +21,10 @@ const userSchema = new mongoose.Schema({
   age: {
     type: Number,
     required: true,
-    min: 1, // Minimum age validation
+    min: 1,
   },
 }, {
-  timestamps: true, // Adds createdAt and updatedAt fields
+  timestamps: true, 
 });
 
 module.exports = mongoose.model('User', userSchema);

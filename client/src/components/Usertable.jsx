@@ -32,25 +32,6 @@ const Usertable = () => {
     setNewUser((prev) => ({ ...prev, [name]: value }));
   };
 
-  // Create a new user
-  const handleCreateUser = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await fetch('http://localhost:3001/users', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(newUser),
-      });
-      const createdUser = await response.json();
-      setItems((prevUsers) => [...prevUsers, createdUser]);
-      setNewUser({ name: '', email: '', address: '', age: '' });
-      alert('User created successfully!');
-    } catch (error) {
-      console.error('Error creating user:', error);
-    }
-  };
 
   // Delete a user
   const handleDelete = async (userId) => {
@@ -95,9 +76,6 @@ const Usertable = () => {
   return (
     <>
       <Container>
-
-
-
         {/* Search and Actions */}
         <Row className="mb-4">
           <Col xs={12} md={8}>
