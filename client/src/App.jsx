@@ -15,7 +15,6 @@ import AddToCart from './components/AddtoCart';
 import ImageUploader from './components/ImageUpload';
 import Map from './components/MapContainer';
 
-
 function App() {
   const [count, setCount] = useState(0)
 

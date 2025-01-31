@@ -7,7 +7,6 @@ function PdfUpload() {
   const [file, setFile] = useState(null);
   const [allPdfs, setAllPdfs] = useState([]);
 
-  // Fetch PDFs on component mount
   useEffect(() => {
     fetchPdfs();
   }, []);
