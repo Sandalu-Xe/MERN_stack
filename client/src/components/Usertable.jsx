@@ -32,25 +32,6 @@ const Usertable = () => {
     setNewUser((prev) => ({ ...prev, [name]: value }));
   };
 
-  // Create a new user
-  const handleCreateUser = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await fetch('http://localhost:3001/users', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(newUser),
-      });
-      const createdUser = await response.json();
-      setItems((prevUsers) => [...prevUsers, createdUser]);
-      setNewUser({ name: '', email: '', address: '', age: '' });
-      alert('User created successfully!');
-    } catch (error) {
-      console.error('Error creating user:', error);
-    }
-  };
 
   // Delete a user
   const handleDelete = async (userId) => {
@@ -95,78 +76,6 @@ const Usertable = () => {
   return (
     <>
       <Container>
-        {/* Create User Form */}
-        <Row className="mb-4">
-          <Col xs={12}>
-            <h3>Create User</h3>
-            <Form onSubmit={handleCreateUser} className="mb-4">
-              <Row>
-                <Col md={6}>
-                  <FormGroup>
-                    <Label for="name">Name</Label>
-                    <Input
-                      type="text"
-                      name="name"
-                      id="name"
-                      placeholder="Enter name"
-                      value={newUser.name}
-                      onChange={handleInputChange}
-                      required
-                    />
-                  </FormGroup>
-                </Col>
-                <Col md={6}>
-                  <FormGroup>
-                    <Label for="email">Email</Label>
-                    <Input
-                      type="email"
-                      name="email"
-                      id="email"
-                      placeholder="Enter email"
-                      value={newUser.email}
-                      onChange={handleInputChange}
-                      required
-                    />
-                  </FormGroup>
-                </Col>
-              </Row>
-              <Row>
-                <Col md={6}>
-                  <FormGroup>
-                    <Label for="address">Address</Label>
-                    <Input
-                      type="text"
-                      name="address"
-                      id="address"
-                      placeholder="Enter address"
-                      value={newUser.address}
-                      onChange={handleInputChange}
-                      required
-                    />
-                  </FormGroup>
-                </Col>
-                <Col md={6}>
-                  <FormGroup>
-                    <Label for="age">Age</Label>
-                    <Input
-                      type="number"
-                      name="age"
-                      id="age"
-                      placeholder="Enter age"
-                      value={newUser.age}
-                      onChange={handleInputChange}
-                      required
-                    />
-                  </FormGroup>
-                </Col>
-              </Row>
-              <Button color="primary" type="submit">
-                Create User
-              </Button>
-            </Form>
-          </Col>
-        </Row>
-
         {/* Search and Actions */}
         <Row className="mb-4">
           <Col xs={12} md={8}>
